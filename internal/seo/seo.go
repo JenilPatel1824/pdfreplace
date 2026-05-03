@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
 )
 
 func siteURL() string {
@@ -26,19 +25,29 @@ func Robots(w http.ResponseWriter, r *http.Request) {
 }
 
 func Sitemap(w http.ResponseWriter, r *http.Request) {
+	// Strict XML MIME for crawlers (Google Search Central / sitemap spec).
 	w.Header().Set("Content-Type", "application/xml; charset=utf-8")
-	now := time.Now().UTC().Format("2006-01-02")
 	base := siteURL()
 
+	// lastmod reflects real content updates (bump when you change a URL meaningfully).
 	urls := []struct {
 		Path     string
 		Priority string
 		Freq     string
+		LastMod  string
 	}{
-		{"/", "1.0", "weekly"},
-		{"/editor", "0.9", "weekly"},
-		{"/how-to-replace-text-in-pdf", "0.8", "monthly"},
-		{"/pdf-text-replace-free", "0.8", "monthly"},
+		{"/", "1.0", "weekly", "2026-05-03"},
+		{"/editor", "0.9", "weekly", "2026-05-03"},
+		{"/how-to-replace-text-in-pdf", "0.8", "monthly", "2026-05-03"},
+		{"/pdf-text-replace-free", "0.8", "monthly", "2026-05-03"},
+		{"/pdf-text-replace-vs-adobe-acrobat", "0.75", "monthly", "2026-05-03"},
+		{"/replace-text-in-invoice", "0.7", "monthly", "2026-05-03"},
+		{"/find-and-replace-names-in-pdf", "0.7", "monthly", "2026-05-03"},
+		{"/redact-sensitive-info-pdf", "0.7", "monthly", "2026-05-03"},
+		{"/privacy-policy", "0.4", "yearly", "2026-05-03"},
+		{"/terms", "0.4", "yearly", "2026-05-03"},
+		{"/contact", "0.35", "yearly", "2026-05-03"},
+		{"/about", "0.35", "yearly", "2026-05-03"},
 	}
 
 	fmt.Fprint(w, `<?xml version="1.0" encoding="UTF-8"?>`)
@@ -46,7 +55,7 @@ func Sitemap(w http.ResponseWriter, r *http.Request) {
 	for _, u := range urls {
 		fmt.Fprintf(w,
 			`<url><loc>%s%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%s</priority></url>`,
-			base, u.Path, now, u.Freq, u.Priority,
+			base, u.Path, u.LastMod, u.Freq, u.Priority,
 		)
 	}
 	fmt.Fprint(w, `</urlset>`)

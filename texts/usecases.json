@@ -1,0 +1,56 @@
+{
+  "replace-text-in-invoice": {
+    "h1": "Replace Text in a PDF Invoice (Line Items, Totals, Addresses)",
+    "datePublished": "2026-04-01T12:00:00+00:00",
+    "dateModified": "2026-05-03T12:00:00+00:00",
+    "lead": "Invoices exported from accounting software, ERP systems, or “print to PDF” workflows are ordinary vector PDFs. If the text is selectable, you can replace vendor names, PO numbers, due dates, or a wrong line description without rebuilding the file in the original app.",
+    "sections": [
+      {"h": "Why invoices are good candidates for find-and-replace", "p": "Most invoice PDFs store real text objects with embedded fonts. That means a search for an exact string — for example an old company legal name or an obsolete SKU — can locate every occurrence before you commit a change. Unlike a raster scan, you are not editing pixels; you are swapping the characters the PDF already contains. The layout engine keeps the same coordinates, so tables and alignment usually survive as long as the new text is not dramatically longer than the old text."},
+      {"h": "Typical fixes people make", "p": "Common edits include correcting a billing address after a move, updating a tax ID placeholder, changing “Net 30” to “Net 15,” renaming a client on a recurring template, or fixing a typo in a product description that repeats on multiple pages. You can scope replacements to only the pages that contain the error so unrelated pages in the same PDF stay untouched."},
+      {"h": "What to check before you download", "p": "Open the page previews and confirm yellow highlights land only on the characters you intend to change. Currency symbols and thousand separators must match exactly what appears in the file. If a number is split across multiple text operators in the PDF, the tool may see fragments differently than they look on screen — in that rare case, try a shorter unique substring or edit one page at a time."},
+      {"h": "When you should not rely on text replace alone", "p": "If the invoice is a photograph or scan, there is no reliable text layer until OCR runs. If amounts must be mathematically recomputed — for example changing quantity without updating a calculated total — replacing text will not fix the arithmetic; you need the source document or accounting system. For legally binding invoices, keep an audit copy of the original and follow your company’s policy on document changes."},
+      {"h": "How PDF Text Replace fits in your workflow", "p": "pdfreplace.com is a free online tool: upload the invoice PDF, type the old text and new text, select pages, and download the result. Files are transferred over HTTPS and deleted automatically within about one hour. The service is funded by ads, not by selling your document content."}
+    ],
+    "seo": {
+      "title": "Replace Text in PDF Invoice — Free Online Find & Replace",
+      "description": "Fix names, dates, addresses, and line text in invoice PDFs. Select pages, preview matches, download. Free browser tool — HTTPS, auto file deletion.",
+      "ogImage": "/static/og-home.png"
+    }
+  },
+  "find-and-replace-names-in-pdf": {
+    "h1": "Find and Replace Names in a PDF (Contracts, Certificates, Mail-merge)",
+    "datePublished": "2026-04-05T12:00:00+00:00",
+    "dateModified": "2026-05-03T12:00:00+00:00",
+    "lead": "Mail-merge and template PDFs often repeat the same personal or company name on a cover page, headers, and signature blocks. A single find-and-replace pass can update every occurrence in seconds — as long as the name appears as real text and not as part of a flattened image.",
+    "sections": [
+      {"h": "Exact matching matters", "p": "PDF Text Replace performs literal string matching, including spaces and capitalization. “Acme Corp” and “Acme corp” are different queries. If the document uses curly apostrophes or special Unicode characters, copy a sample directly from the PDF viewer or type the character exactly as encoded. For people with names that appear in multiple forms (nickname vs legal name), run separate passes or verify highlights before downloading."},
+      {"h": "Choosing which pages to change", "p": "Contracts sometimes embed the party name on page 1, in definitions, and in exhibits. Tick every page that should receive the update and leave exhibits out if they must stay unchanged. Page-level control prevents accidental edits in schedules you did not intend to touch."},
+      {"h": "Preserving appearance", "p": "The tool attempts to keep font size and color when the original font program is embedded in the PDF. If the replacement string is much longer than the original, characters may collide with nearby words or lines — shorten the text, abbreviate, or adjust layout in a desktop editor for dense legal pages."},
+      {"h": "Limitations with scanned agreements", "p": "A signed PDF that is really a stack of phone-camera photos has no stable text layer. Find-and-replace cannot run until OCR software has created selectable text and the result has been saved as a new PDF. Always review OCR output for misread letters before bulk replacing sensitive names."},
+      {"h": "Privacy expectations", "p": "Names in contracts can be sensitive. Upload only if your organisation allows browser-based processing. Connections use TLS; files are removed automatically within about one hour; we do not use your PDF to train AI models. For the strictest regimes, process offline instead."}
+    ],
+    "seo": {
+      "title": "Find & Replace Names in PDF — Free Online Tool",
+      "description": "Update a person or company name across selected pages of a PDF. Case-sensitive find, page previews, HTTPS, no watermark. Free in your browser.",
+      "ogImage": "/static/og-editor.png"
+    }
+  },
+  "redact-sensitive-info-pdf": {
+    "h1": "Removing or Replacing Sensitive Text in a PDF (What Actually Works)",
+    "datePublished": "2026-04-10T12:00:00+00:00",
+    "dateModified": "2026-05-03T12:00:00+00:00",
+    "lead": "True redaction for legal disclosure means the sensitive content must not be recoverable from the file. Replacing visible text with other characters is appropriate when you only need a clean customer-facing copy — but it is not the same as certified redaction in dedicated legal software. Understand the difference before you share the file.",
+    "sections": [
+      {"h": "What “replace text” does in technical terms", "p": "PDF Text Replace rewrites text objects in the page content stream. The old glyphs are no longer drawn and new glyphs appear in their place. For many business workflows — hiding an internal project code in a brochure, swapping an outdated account number in a sample export, or masking a middle initial in a demo — that is sufficient. The result is a normal PDF that opens anywhere."},
+      {"h": "When you need professional redaction instead", "p": "Court rules, FOIA responses, and security audits often require that hidden layers, comments, metadata, and incremental updates cannot resurrect the secret data. Acrobat Pro, Foxit Enterprise, and specialised redaction tools remove or flatten content across the whole file. If a compliance officer must sign off, ask them which standard applies before using any online utility."},
+      {"h": "Operational tips for safer edits", "p": "Work on a copy, not the only original. Replace a unique token first (for example a full credit-card-like string) and search the downloaded PDF again in a local viewer to ensure no secondary occurrence remains in an unexpected font. Combine text replacement with your organisation’s policy for metadata stripping if the document circulated through collaboration tools."},
+      {"h": "Scanned IDs and forms", "p": "Passport numbers, licence scans, and signed forms that are bitmaps cannot be edited with text tools until OCR runs. Even then, consider black-box redaction boxes that remove the image data, not just the OCR text layer."},
+      {"h": "Using this site responsibly", "p": "pdfreplace.com processes files over encrypted connections and deletes server copies within about one hour. Do not upload classified or illegal material. If in doubt, use offline software on an air-gapped machine."}
+    ],
+    "seo": {
+      "title": "Replace Sensitive Text in PDF — Limits & Safe Workflow",
+      "description": "Learn when find-and-replace is enough vs when you need certified redaction. Free online PDF text replace with HTTPS and automatic file deletion.",
+      "ogImage": "/static/og-home.png"
+    }
+  }
+}

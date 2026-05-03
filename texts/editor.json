@@ -1,4 +1,14 @@
 {
+  "security": {
+    "title": "Security & privacy guarantee",
+    "lead": "Indexable summary of how your file is handled while you use this page.",
+    "points": [
+      {"h": "TLS (HTTPS)", "p": "Uploads and downloads use TLS encryption between your browser and our servers."},
+      {"h": "Automatic deletion", "p": "PDFs are deleted automatically within about one hour after upload. We do not keep a permanent archive of your document for resale or model training."},
+      {"h": "No AI training on your text", "p": "We do not use the contents of your PDF to train third-party machine-learning models."},
+      {"h": "Use your judgment for regulated data", "p": "If your policy forbids cloud processing, run an offline editor instead. Do not upload legally restricted or classified material."}
+    ]
+  },
   "title": "PDF Editor — Find & Replace Text",
   "steps": [
     {"n": 1, "label": "Upload PDF"},
@@ -9,6 +19,8 @@
   "labels": {
     "uploadCta": "Choose PDF or drag here",
     "uploadHint": "Up to 25 MB. PDFs only. Files auto-delete after 1 hour.",
+    "ariaUploadPdf": "Upload a PDF file (max 25 MB) to find and replace text",
+    "ariaReplaceDownload": "Apply replacements on selected pages and download the edited PDF",
     "oldLabel": "Old text — what to find",
     "newLabel": "New text — what to replace it with",
     "findBtn": "Find & preview",

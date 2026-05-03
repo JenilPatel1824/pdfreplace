@@ -80,6 +80,7 @@ func (a *App) PageImage(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "image/png")
 	w.Header().Set("Cache-Control", "private, max-age=300")
+	w.Header().Set("X-Robots-Tag", "noindex, nofollow")
 	_, _ = w.Write(img)
 }
 

@@ -56,8 +56,11 @@ main{display:block;max-width:1180px;margin:0 auto;padding:32px 22px 80px;}
   padding:32px 22px;text-align:center;color:var(--text-muted);font-size:.92rem;
   background:var(--bg-soft);
 }
-.site-footer ul{list-style:none;padding:0;margin:10px 0 0;}
-.site-footer li{display:inline-block;margin:0 12px;}
+.site-footer ul{
+  list-style:none;padding:0;margin:14px 0 0;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;max-width:900px;margin-left:auto;margin-right:auto;
+}
+.site-footer li{display:inline-block;margin:0;}
 
 /* ---------------- Buttons ---------------- */
 .btn{
@@ -175,9 +178,11 @@ section h2{
 /* ---------------- How ---------------- */
 .how{margin-top:60px;}
 .how-grid{
+  counter-reset: howstep;
   display:grid;gap:14px;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 }
+.how-deck{margin:0 0 20px;color:var(--text-soft);max-width:72ch;}
 .how-step{
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius-lg);padding:20px;position:relative;
@@ -187,6 +192,10 @@ section h2{
   width:32px;height:32px;border-radius:10px;display:grid;place-items:center;
   background:var(--grad-hero);color:#fff;font-weight:700;
   box-shadow:var(--shadow-brand);
+}
+.how-step .num::before{
+  counter-increment: howstep;
+  content: counter(howstep);
 }
 .how-step h3{margin:14px 0 4px;font-size:1.02rem;}
 .how-step p{margin:0;color:var(--text-soft);font-size:.95rem;}
@@ -249,6 +258,29 @@ section h2{
 
 .editor-grid{display:grid;gap:24px;grid-template-columns:minmax(0,1fr);}
 @media(min-width:1024px){.editor-grid{grid-template-columns:minmax(0,1fr) 320px;}}
+
+.security-guarantee{
+  grid-column:1/-1;
+  margin-top:8px;
+  padding:22px 24px;
+  border-radius:var(--radius-lg);
+  border:2px solid var(--border-focus);
+  background:linear-gradient(135deg,var(--brand-soft) 0%,var(--surface) 55%);
+  box-shadow:var(--shadow-sm);
+}
+.security-guarantee h2{margin:0 0 6px;font-size:1.12rem;letter-spacing:-.02em;color:var(--text);}
+.security-guarantee > p.lead{margin:0 0 16px;color:var(--text-soft);font-size:.96rem;}
+.security-guarantee .sg-grid{
+  display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
+.security-guarantee .sg-item h3{margin:0 0 6px;font-size:.95rem;color:var(--text);}
+.security-guarantee .sg-item p{margin:0;color:var(--text-soft);font-size:.9rem;line-height:1.55;}
+
+.legal-doc{max-width:720px;}
+.legal-doc h1{margin-top:0;letter-spacing:-.02em;}
+.legal-doc h2{margin-top:28px;font-size:1.05rem;color:var(--text);}
+.legal-doc p{color:var(--text-soft);}
 
 .card{
   background:var(--grad-card);

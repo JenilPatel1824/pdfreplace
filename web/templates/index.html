@@ -4,6 +4,19 @@
 {{template "jsonld_software" .}}
 <script type="application/ld+json">{
   "@context":"https://schema.org",
+  "@type":"HowTo",
+  "name":{{index .Site.howTo "name" | printf "%q"}},
+  "description":{{index .Site.howTo "description" | printf "%q"}},
+  "totalTime":"PT2M",
+  "tool":[{"@type":"HowToTool","name":{{.Site.brand | printf "%q"}},"url":{{printf "%s/editor" .SiteOrigin | printf "%q"}}}],
+  "step":[
+{{range $i, $s := index .Site.howTo "steps"}}{{if $i}},{{end}}
+  {"@type":"HowToStep","name":{{index $s "name" | printf "%q"}},"text":{{index $s "text" | printf "%q"}}}
+{{end}}
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
   "@type":"FAQPage",
   "mainEntity":[
 {{range $i, $f := .FAQ}}{{if $i}},{{end}}{
@@ -53,12 +66,10 @@
 
 <section id="how" class="how reveal">
   <span class="section-eyebrow">Workflow</span>
-  <h2>How to replace text in a PDF — 4 steps</h2>
+  <h2>{{index .Site.howTo "name"}}</h2>
+  <p class="how-deck">{{index .Site.howTo "description"}}</p>
   <div class="how-grid">
-    <div class="how-step"><span class="num">1</span><h3>Upload</h3><p>Drop your PDF or pick from disk. Up to 25 MB.</p></div>
-    <div class="how-step"><span class="num">2</span><h3>Find</h3><p>Type the old text and the new text. We highlight every match.</p></div>
-    <div class="how-step"><span class="num">3</span><h3>Pick pages</h3><p>Tick the pages where you want the replacement. Skip the rest.</p></div>
-    <div class="how-step"><span class="num">4</span><h3>Download</h3><p>Get your edited PDF. No watermark, no signup.</p></div>
+    {{range $s := index .Site.howTo "steps"}}<div class="how-step"><span class="num" aria-hidden="true"></span><h3>{{index $s "name"}}</h3><p>{{index $s "text"}}</p></div>{{end}}
   </div>
   <p style="margin-top:24px"><a class="btn primary big" href="/editor">Start editing — it's free</a></p>
 </section>

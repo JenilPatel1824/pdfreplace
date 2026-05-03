@@ -7,7 +7,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"sort"
+	"strings"
 )
 
 
@@ -18,6 +20,8 @@ type App struct {
 	EditorText map[string]any
 	FAQText    map[string]any
 	SEO        map[string]any
+	UseCases   map[string]any
+	LegalPages map[string]any
 	Theme      map[string]any
 	ThemeCSS   template.CSS // pre-rendered :root { --x: ... } block
 }
@@ -69,7 +73,13 @@ func (a *App) render(w http.ResponseWriter, r *http.Request, name string, data m
 	if _, ok := data["SEO"]; !ok {
 		data["SEO"] = a.SEO["home"]
 	}
-	data["CanonicalURL"] = canonical(r)
+	origin := publicOrigin(r)
+	data["SiteOrigin"] = origin
+	data["CanonicalURL"] = origin + canonicalPath(r.URL.Path)
+	data["OGImage"] = ogImagePath(data["SEO"])
+	if _, ok := data["OGType"]; !ok {
+		data["OGType"] = "website"
+	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := a.Tpl.ExecuteTemplate(w, name, data); err != nil {
 		log.Printf("template %s: %v", name, err)
@@ -77,24 +87,49 @@ func (a *App) render(w http.ResponseWriter, r *http.Request, name string, data m
 	}
 }
 
-func canonical(r *http.Request) string {
+// publicOrigin is scheme + host (no path), for absolute URLs in OG/Twitter tags.
+func publicOrigin(r *http.Request) string {
 	scheme := "https"
 	if v := os.Getenv("SITE_SCHEME"); v != "" {
 		scheme = v
-	} else if r.TLS == nil && r.Header.Get("X-Forwarded-Proto") == "" {
+	} else if fp := r.Header.Get("X-Forwarded-Proto"); fp == "http" || fp == "https" {
+		scheme = fp
+	} else if r.TLS == nil {
 		scheme = "http"
 	}
 	host := os.Getenv("SITE_HOST")
 	if host == "" {
 		host = r.Host
 	}
-	return scheme + "://" + host + r.URL.Path
+	return scheme + "://" + host
+}
+
+// canonicalPath normalizes the URL path for <link rel="canonical"> (no query string).
+// Host canonicalization (www vs apex) is via SITE_HOST and your CDN/DNS.
+func canonicalPath(raw string) string {
+	if raw == "" || raw == "/" {
+		return "/"
+	}
+	return path.Clean("/" + strings.TrimPrefix(raw, "/"))
+}
+
+func ogImagePath(seo any) string {
+	m, ok := seo.(map[string]any)
+	if !ok {
+		return "/static/og-home.png"
+	}
+	v, _ := m["ogImage"].(string)
+	if v != "" {
+		return v
+	}
+	return "/static/og-home.png"
 }
 
 func (a *App) Index(w http.ResponseWriter, r *http.Request) {
 	a.render(w, r, "index.html", map[string]any{
-		"FAQ": a.FAQText["items"],
-		"SEO": a.SEO["home"],
+		"FAQ":    a.FAQText["items"],
+		"SEO":    a.SEO["home"],
+		"OGType": "website",
 	})
 }
 
@@ -102,6 +137,7 @@ func (a *App) Editor(w http.ResponseWriter, r *http.Request) {
 	a.render(w, r, "editor.html", map[string]any{
 		"Editor": a.EditorText,
 		"SEO":    a.SEO["editor"],
+		"OGType": "website",
 	})
 }
 
@@ -116,6 +152,33 @@ func (a *App) Article(w http.ResponseWriter, r *http.Request) {
 	a.render(w, r, "article.html", map[string]any{
 		"Article": art,
 		"SEO":     art["seo"],
+		"OGType":  "article",
+	})
+}
+
+func (a *App) UseCase(w http.ResponseWriter, r *http.Request, slug string) {
+	uc, _ := a.UseCases[slug].(map[string]any)
+	if uc == nil {
+		http.NotFound(w, r)
+		return
+	}
+	a.render(w, r, "article.html", map[string]any{
+		"Article": uc,
+		"SEO":     uc["seo"],
+		"OGType":  "article",
+	})
+}
+
+func (a *App) Legal(w http.ResponseWriter, r *http.Request, id string) {
+	page, _ := a.LegalPages[id].(map[string]any)
+	if page == nil {
+		http.NotFound(w, r)
+		return
+	}
+	a.render(w, r, "legal.html", map[string]any{
+		"Page":   page,
+		"SEO":    page["seo"],
+		"OGType": "website",
 	})
 }
 

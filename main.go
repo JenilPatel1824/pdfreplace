@@ -1,12 +1,16 @@
 package main
 
 import (
+	"compress/gzip"
 	"flag"
+	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"pdfrep/internal/handlers"
 	"pdfrep/internal/seo"
@@ -30,6 +34,8 @@ func main() {
 		EditorText: handlers.LoadJSON("texts/editor.json"),
 		FAQText:    handlers.LoadJSON("texts/faq.json"),
 		SEO:        handlers.LoadJSON("texts/seo.json"),
+		UseCases:   handlers.LoadJSON("texts/usecases.json"),
+		LegalPages: handlers.LoadJSON("texts/legal.json"),
 		Theme:      theme,
 		ThemeCSS:   handlers.BuildThemeCSS(theme),
 	}
@@ -41,6 +47,31 @@ func main() {
 	mux.HandleFunc("GET /editor", app.Editor)
 	mux.HandleFunc("GET /how-to-replace-text-in-pdf", app.Article)
 	mux.HandleFunc("GET /pdf-text-replace-free", app.Article)
+	mux.HandleFunc("GET /pdf-text-replace-vs-adobe-acrobat", app.Article)
+
+	for _, slug := range []string{
+		"replace-text-in-invoice",
+		"find-and-replace-names-in-pdf",
+		"redact-sensitive-info-pdf",
+	} {
+		slug := slug
+		mux.HandleFunc("GET /"+slug, func(w http.ResponseWriter, r *http.Request) {
+			app.UseCase(w, r, slug)
+		})
+	}
+
+	mux.HandleFunc("GET /privacy-policy", func(w http.ResponseWriter, r *http.Request) {
+		app.Legal(w, r, "privacy-policy")
+	})
+	mux.HandleFunc("GET /terms", func(w http.ResponseWriter, r *http.Request) {
+		app.Legal(w, r, "terms")
+	})
+	mux.HandleFunc("GET /contact", func(w http.ResponseWriter, r *http.Request) {
+		app.Legal(w, r, "contact")
+	})
+	mux.HandleFunc("GET /about", func(w http.ResponseWriter, r *http.Request) {
+		app.Legal(w, r, "about")
+	})
 
 	// API
 	mux.HandleFunc("POST /api/upload", app.Upload)
@@ -52,15 +83,45 @@ func main() {
 	// SEO
 	mux.HandleFunc("GET /robots.txt", seo.Robots)
 	mux.HandleFunc("GET /sitemap.xml", seo.Sitemap)
-	mux.HandleFunc("GET /ads.txt", serveStatic("public/ads.txt"))
+	mux.HandleFunc("GET /ads.txt", serveAdsTxt("public/ads.txt"))
 
-	// Static
-	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("web/static"))))
+	// Static (long cache; bump filenames or query when assets change)
+	mux.Handle("GET /static/", withStaticCache(31536000, http.StripPrefix("/static/", http.FileServer(http.Dir("web/static")))))
 
 	log.Printf("listening on %s", *addr)
-	if err := http.ListenAndServe(*addr, withSecurityHeaders(mux)); err != nil {
+	if err := http.ListenAndServe(*addr, withSecurityHeaders(withGzip(mux))); err != nil {
 		log.Fatal(err)
 	}
+}
+
+type gzipResponseWriter struct {
+	http.ResponseWriter
+	w io.Writer
+}
+
+func (g gzipResponseWriter) Write(b []byte) (int, error) {
+	return g.w.Write(b)
+}
+
+// withGzip compresses responses when the client accepts gzip (Core Web Vitals / transfer size).
+// Pair with CDN Brotli (e.g. Cloudflare) in production for even smaller payloads.
+func withGzip(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		p := r.URL.Path
+		if strings.HasPrefix(p, "/static/") || strings.HasPrefix(p, "/api/") {
+			h.ServeHTTP(w, r)
+			return
+		}
+		if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
+			h.ServeHTTP(w, r)
+			return
+		}
+		w.Header().Set("Content-Encoding", "gzip")
+		w.Header().Add("Vary", "Accept-Encoding")
+		gz := gzip.NewWriter(w)
+		defer gz.Close()
+		h.ServeHTTP(gzipResponseWriter{ResponseWriter: w, w: gz}, r)
+	})
 }
 
 func envOr(k, def string) string {
@@ -76,8 +137,18 @@ func mustDir(p string) {
 	}
 }
 
-func serveStatic(path string) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) { http.ServeFile(w, r, path) }
+func serveAdsTxt(filePath string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		http.ServeFile(w, r, filePath)
+	}
+}
+
+func withStaticCache(maxAgeSec int, h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d, immutable", maxAgeSec))
+		h.ServeHTTP(w, r)
+	})
 }
 
 func withSecurityHeaders(h http.Handler) http.Handler {

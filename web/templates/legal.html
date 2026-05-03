@@ -1,0 +1,20 @@
+{{define "legal.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>{{template "head" .}}</head>
+<body>
+{{template "header" .}}
+
+<main>
+<article class="legal-doc reveal">
+  <h1>{{index .Page "title"}}</h1>
+  {{range index .Page "sections"}}
+  <h2>{{index . "h"}}</h2>
+  <p>{{index . "p"}}</p>
+  {{end}}
+</article>
+</main>
+
+{{template "footer" .}}
+<script src="/static/js/site.js"></script>
+</body>
+</html>{{end}}

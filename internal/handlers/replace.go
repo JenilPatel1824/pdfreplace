@@ -65,5 +65,7 @@ func (a *App) Download(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/pdf")
 	w.Header().Set("Content-Disposition", `attachment; filename="replaced.pdf"`)
+	// Per-user URLs must not be indexed (no HTML <head>; use HTTP header).
+	w.Header().Set("X-Robots-Tag", "noindex, nofollow")
 	http.ServeFile(w, r, p)
 }

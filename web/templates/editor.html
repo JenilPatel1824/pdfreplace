@@ -20,7 +20,7 @@
       <section id="step-upload" class="card">
         <h2>1. Upload PDF</h2>
         <label class="dropzone" for="pdfInput" id="dropzone">
-          <input id="pdfInput" type="file" accept="application/pdf" hidden>
+          <input id="pdfInput" type="file" accept="application/pdf" hidden aria-label="{{.Editor.labels.ariaUploadPdf}}">
           <div class="dz-empty" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
             <span class="dz-ico">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -106,8 +106,8 @@
           <button id="selNone" class="btn ghost">{{.Editor.labels.selectNone}}</button>
         </div>
         <div id="pagesGrid" class="pages-grid"></div>
-        <button id="replaceBtn" class="btn primary big">{{.Editor.labels.replaceBtn}}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <button id="replaceBtn" type="button" class="btn primary big" aria-label="{{.Editor.labels.ariaReplaceDownload}}">{{.Editor.labels.replaceBtn}}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
         <p id="replaceStatus" class="status" aria-live="polite"></p>
       </section>
@@ -144,6 +144,14 @@
           <a target="_blank" rel="noopener" id="shareLinkedIn" href="#">LinkedIn</a>,
           <a id="shareCopy" href="#">{{.Editor.labels.thanksCopy}}</a>
         </p>
+      </section>
+
+      <section class="security-guarantee card" aria-labelledby="sec-guarantee-title">
+        <h2 id="sec-guarantee-title">{{.Editor.security.title}}</h2>
+        <p class="lead">{{.Editor.security.lead}}</p>
+        <div class="sg-grid">
+          {{range .Editor.security.points}}<div class="sg-item"><h3>{{.h}}</h3><p>{{.p}}</p></div>{{end}}
+        </div>
       </section>
 
     </div>

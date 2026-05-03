@@ -1,0 +1,66 @@
+{
+  "privacy-policy": {
+    "title": "Privacy Policy",
+    "seo": {
+      "title": "Privacy Policy — PDF Text Replace",
+      "description": "How PDF Text Replace handles uploaded PDFs, cookies, Google AdSense, analytics, retention, and your rights.",
+      "ogImage": "/static/og-home.png"
+    },
+    "sections": [
+      {"h": "Who we are", "p": "PDF Text Replace (“we”, “the service”) is a free web application that lets you find and replace text inside PDF files in your browser. This policy explains what data is processed when you use pdfreplace.com or affiliated domains that point to the same application."},
+      {"h": "PDF files you upload", "p": "When you use the editor, your PDF is transmitted to our servers over HTTPS (TLS encryption). The file is stored temporarily so our software can render pages, locate text, and build a downloadable result. Temporary copies are deleted automatically within approximately one hour after upload. We do not sell PDF contents, we do not use your document to train machine-learning models, and we do not build marketing profiles from the text inside your files."},
+      {"h": "Google AdSense and advertising cookies", "p": "The site is funded in part by Google AdSense. Google and its partners may set cookies or use similar technologies to serve and measure ads, including personalised ads where permitted. Those vendors process data under their own policies. You can learn how Google uses data from partner sites at policies.google.com/technologies/partner-sites. You may control ad personalisation in your Google account settings or through industry opt-out tools where available."},
+      {"h": "Google Analytics (gtag)", "p": "We may use Google Analytics tags to understand aggregate traffic (for example which pages load and approximate geography). Analytics receives events from your browser; it is not given the raw text you type into find-and-replace fields as part of that product integration."},
+      {"h": "Logs and security", "p": "Like most web servers, we may keep short-lived technical logs (IP address, user agent, timestamps, error codes) for reliability and abuse prevention. These logs are not a substitute for long-term file storage and are rotated or deleted according to operational need."},
+      {"h": "Your rights", "p": "Depending on where you live, privacy laws such as the GDPR or CCPA may give you rights to access, correct, delete, or restrict certain processing of personal data. Because we minimise stored identifiers, there may be little to retrieve after your session ends. Contact us using the address on the Contact page for privacy requests; we will respond within the timeframes required by applicable law."},
+      {"h": "Children", "p": "The service is not directed at children under 13. Do not upload documents containing children’s personal information unless you have lawful authority to process that data."},
+      {"h": "Changes", "p": "We may update this policy when features or legal requirements change. The “last updated” date at the bottom reflects the latest revision. Continued use after changes constitutes acceptance of the updated policy."},
+      {"h": "Last updated", "p": "May 3, 2026."}
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "seo": {
+      "title": "Terms of Service — PDF Text Replace",
+      "description": "Terms of use, acceptable use, disclaimers, and liability limits for the free PDF text replace web application.",
+      "ogImage": "/static/og-home.png"
+    },
+    "sections": [
+      {"h": "Agreement", "p": "By using PDF Text Replace you agree to these Terms and to our Privacy Policy. If you disagree, do not use the service."},
+      {"h": "The service", "p": "We provide an automated tool to search and replace text in PDF files you upload. The service is offered “as is” and “as available.” We may change, suspend, or discontinue features without notice."},
+      {"h": "Acceptable use", "p": "You may not use the service to violate law, infringe intellectual property, distribute malware, harass others, or process data you are not authorised to handle. You may not attempt to disrupt servers, scrape the site in a way that impairs performance, or circumvent technical limits such as upload size caps."},
+      {"h": "No professional advice", "p": "Output PDFs may not meet regulatory, legal, or accessibility requirements for your industry. We do not provide legal, financial, or compliance advice. You are responsible for verifying results before relying on them."},
+      {"h": "Limitation of liability", "p": "To the maximum extent permitted by law, PDF Text Replace and its operators are not liable for indirect, incidental, special, consequential, or punitive damages, or for loss of profits, data, or goodwill, arising from your use of the service. Our aggregate liability for any claim relating to the service shall not exceed the greater of (a) the amount you paid us in the twelve months before the claim (zero for free users) or (b) fifty US dollars."},
+      {"h": "Indemnity", "p": "You agree to indemnify and hold harmless the service and its operators from claims arising out of your content, your misuse of the service, or your violation of these Terms."},
+      {"h": "Governing law", "p": "These Terms are governed by the laws of the jurisdiction in which the operator resides, without regard to conflict-of-law rules. Courts in that jurisdiction have exclusive venue, unless mandatory consumer protections in your country require otherwise."},
+      {"h": "Last updated", "p": "May 3, 2026."}
+    ]
+  },
+  "contact": {
+    "title": "Contact",
+    "seo": {
+      "title": "Contact — PDF Text Replace",
+      "description": "Contact PDF Text Replace for privacy requests, abuse reports, or partnership questions.",
+      "ogImage": "/static/og-home.png"
+    },
+    "sections": [
+      {"h": "Email", "p": "For privacy requests, security reports, or general questions, email support@pdfreplace.com. Replace the domain if you deploy under a different hostname — use an address monitored by your organisation."},
+      {"h": "Response time", "p": "We aim to reply to routine messages within several business days. Legal or security-sensitive reports are prioritised."},
+      {"h": "No phone support", "p": "This project is operated as a lean utility. Telephone support is not available. Please use email."}
+    ]
+  },
+  "about": {
+    "title": "About PDF Text Replace",
+    "seo": {
+      "title": "About Us — PDF Text Replace",
+      "description": "Why PDF Text Replace exists: a fast, privacy-conscious find-and-replace utility for PDFs, supported by ethical ads.",
+      "ogImage": "/static/og-home.png"
+    },
+    "sections": [
+      {"h": "What we built", "p": "PDF Text Replace is a focused web application: upload a PDF, find exact text, replace it on the pages you choose, and download. The interface is intentionally simple so people can fix typos, template names, and small errors without installing desktop software or paying for a suite they only need once."},
+      {"h": "Engineering values", "p": "We prioritise HTTPS for all transfers, short retention of uploaded files, and transparent explanations of limitations (for example scanned PDFs without OCR). The product is supported by display advertising through Google AdSense so end users are not charged per document."},
+      {"h": "Who should use it", "p": "Freelancers updating client PDFs, small businesses fixing invoice exports, and anyone who needs a quick text swap on vector PDFs. Users with strict compliance requirements should consult their IT or legal team before uploading confidential material to any online processor."},
+      {"h": "Disclaimer", "p": "This About page describes intent and typical behaviour; it is not a contract. See the Terms of Service for binding language."}
+    ]
+  }
+}

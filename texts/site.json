@@ -12,7 +12,25 @@
     "copyright": "© PDF Text Replace. Free PDF editor — no signup, no watermark.",
     "links": [
       {"label": "How to replace text in a PDF", "href": "/how-to-replace-text-in-pdf"},
-      {"label": "Free PDF text replace", "href": "/pdf-text-replace-free"}
+      {"label": "Free PDF text replace", "href": "/pdf-text-replace-free"},
+      {"label": "Replace text in invoices", "href": "/replace-text-in-invoice"},
+      {"label": "Find & replace names in PDF", "href": "/find-and-replace-names-in-pdf"},
+      {"label": "Redact sensitive text in PDF", "href": "/redact-sensitive-info-pdf"},
+      {"label": "vs Adobe Acrobat", "href": "/pdf-text-replace-vs-adobe-acrobat"},
+      {"label": "Privacy Policy", "href": "/privacy-policy"},
+      {"label": "Terms of Service", "href": "/terms"},
+      {"label": "Contact", "href": "/contact"},
+      {"label": "About", "href": "/about"}
+    ]
+  },
+  "howTo": {
+    "name": "How to replace text in a PDF online",
+    "description": "Upload a PDF, enter the text to find and its replacement, choose which pages to update, and download the edited file. Works in a desktop or mobile browser without installing software.",
+    "steps": [
+      {"name": "Upload your PDF", "text": "Drop the file onto the upload area or pick it from your device. The maximum file size is 25 MB. Your PDF is sent over HTTPS and processed on the server only for this session."},
+      {"name": "Enter find and replace text", "text": "Type the exact characters you want to replace, then type the new text. Matching is case-sensitive. The tool highlights every occurrence on the page thumbnails so you can confirm before applying changes."},
+      {"name": "Select pages", "text": "Tick the checkboxes for pages that should be updated. Leave other pages unchecked so they remain identical to the original. This is useful when only one section of a long document needs a fix."},
+      {"name": "Download the edited PDF", "text": "Run the replacement and save the new PDF to your computer or phone. The output does not add a watermark. Temporary server copies are deleted automatically within about one hour."}
     ]
   },
   "hero": {
@@ -34,6 +52,8 @@
   "articles": {
     "how-to-replace-text-in-pdf": {
       "h1": "How to Replace Text in a PDF (Free, No Software)",
+      "datePublished": "2026-01-15T12:00:00+00:00",
+      "dateModified": "2026-05-03T12:00:00+00:00",
       "lead": "A complete guide to editing text inside a PDF using a free online tool. Works on Windows, Mac, Linux, iPhone, and Android — all you need is a browser.",
       "sections": [
         {"h": "Why editing PDFs is harder than editing Word docs", "p": "PDFs lock text to absolute positions on the page so the layout never shifts. That makes them great for sharing and terrible for editing. Most desktop tools — including Adobe Acrobat — charge for the privilege. PDF Text Replace gives you the core feature for free in your browser."},
@@ -46,11 +66,14 @@
       "seo": {
         "title": "How to Replace Text in a PDF — Free Online Guide (2026)",
         "description": "Step-by-step guide to replace text in a PDF online for free. No software, no signup, no watermark. Works in any browser.",
-        "keywords": "how to replace text in pdf, edit pdf text free, pdf text replace tutorial, change text in pdf"
+        "keywords": "how to replace text in pdf, edit pdf text free, pdf text replace tutorial, change text in pdf",
+        "ogImage": "/static/og-home.png"
       }
     },
     "pdf-text-replace-free": {
       "h1": "Free PDF Text Replace — Edit Any PDF Online Without Signup",
+      "datePublished": "2026-02-01T12:00:00+00:00",
+      "dateModified": "2026-05-03T12:00:00+00:00",
       "lead": "PDF Text Replace is a 100% free browser-based PDF editor focused on one thing: finding text in a PDF and replacing it with new text. No trial. No paywall. No watermark on the output.",
       "sections": [
         {"h": "What you can do for free", "p": "Find any text on any page. Replace it with new text. Pick the exact pages where the change should happen. Download the result. As many times as you want."},
@@ -61,7 +84,28 @@
       "seo": {
         "title": "Free PDF Text Replace — Edit PDF Online Free, No Watermark",
         "description": "Replace text in any PDF for free. No signup, no watermark, no daily limit. Browser-based PDF editor. Works on every device.",
-        "keywords": "free pdf text replace, pdf text replace free, free pdf editor, edit pdf free online, replace text in pdf free"
+        "keywords": "free pdf text replace, pdf text replace free, free pdf editor, edit pdf free online, replace text in pdf free",
+        "ogImage": "/static/og-editor.png"
+      }
+    },
+    "pdf-text-replace-vs-adobe-acrobat": {
+      "h1": "PDF Text Replace vs Adobe Acrobat for Simple Text Edits",
+      "datePublished": "2026-03-10T12:00:00+00:00",
+      "dateModified": "2026-05-03T12:00:00+00:00",
+      "lead": "Adobe Acrobat is the industry standard for full PDF workflows. PDF Text Replace is a free browser tool built for one job: find text in a PDF and swap it for new text. Here is an honest comparison so you can pick the right tool.",
+      "sections": [
+        {"h": "When Acrobat is the better choice", "p": "Choose Acrobat (or a comparable desktop editor) when you need to rearrange layout, edit vector graphics, redact with certification, compare legal documents, apply corporate PDF standards, or batch-process thousands of files on a schedule. Acrobat also integrates with Creative Cloud, e-signature products, and enterprise rights management. Those workflows are outside what a lightweight web utility can offer."},
+        {"h": "When a free online replace tool is enough", "p": "Many real-world tasks only require changing a string that already exists in the PDF. Examples: fixing a typo on a cover page, updating a client name in a proposal, changing a date in a form, or replacing one product code with another across selected pages. For those jobs, paying for a subscription or installing software can be unnecessary. PDF Text Replace runs in Chrome, Safari, Firefox, or Edge. You upload the file, type the old and new text, limit changes to specific pages, and download the result."},
+        {"h": "Cost and access", "p": "Acrobat is a paid product with a recurring subscription for individuals and teams. PDF Text Replace is free for end users and supported by display advertising through Google AdSense. You do not create an account to use the editor. The trade-off is that the site focuses on text replacement rather than a complete design suite."},
+        {"h": "Privacy and where files go", "p": "With Acrobat, files usually stay on your machine unless you choose to use Adobe’s cloud features. With PDF Text Replace, the PDF is uploaded to a server over TLS, processed to apply your edits, and automatically deleted within about one hour. We do not use your document to train machine-learning models and we do not sell file contents. If your policy requires that files never leave your device, use offline software instead."},
+        {"h": "Fonts, layout, and limitations", "p": "Both approaches must respect how PDFs store text: characters are painted at fixed coordinates. If your new text is much longer than the old text, it can overlap nearby content. PDF Text Replace attempts to preserve size and color when the original font data is available in the file. Acrobat offers more manual tuning for difficult layouts. Neither tool can edit text in a scanned PDF until optical character recognition has produced real text objects."},
+        {"h": "Summary", "p": "Use Acrobat when you need professional layout control, compliance features, or deep integration. Use PDF Text Replace when you need a fast, free, no-install way to replace text on selected pages and download a clean PDF. You can try the editor immediately from the homepage."}
+      ],
+      "seo": {
+        "title": "PDF Text Replace vs Adobe Acrobat — When to Use Each (2026)",
+        "description": "Honest comparison: free online PDF find-and-replace vs Adobe Acrobat for typos, names, dates, and page-specific text edits. Cost, privacy, and limitations.",
+        "keywords": "pdf editor alternative, adobe acrobat alternative free, replace text pdf without acrobat",
+        "ogImage": "/static/og-home.png"
       }
     }
   }
