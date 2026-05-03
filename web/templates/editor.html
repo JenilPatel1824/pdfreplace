@@ -1,0 +1,172 @@
+{{define "editor.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>{{template "head" .}}{{template "jsonld_software" .}}</head>
+<body>
+{{template "header" .}}
+
+<main>
+<section class="editor">
+  <span class="section-eyebrow">Editor</span>
+  <h1>{{.Editor.title}}</h1>
+  <p class="editor-sub">Drag a PDF, type the old text and the new text, pick pages, download. No signup.</p>
+
+  <ol class="stepper" id="stepper">
+    {{range .Editor.steps}}<li data-step="{{.n}}">{{.label}}</li>{{end}}
+  </ol>
+
+  <div class="editor-grid">
+    <div class="editor-main">
+
+      <section id="step-upload" class="card">
+        <h2>1. Upload PDF</h2>
+        <label class="dropzone" for="pdfInput" id="dropzone">
+          <input id="pdfInput" type="file" accept="application/pdf" hidden>
+          <div class="dz-empty" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+            <span class="dz-ico">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </span>
+            <span class="dz-cta">{{.Editor.labels.uploadCta}}</span>
+            <span class="dz-hint">{{.Editor.labels.uploadHint}}</span>
+          </div>
+          <div class="dz-file">
+            <span class="file-ico">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </span>
+            <div class="file-meta">
+              <div class="file-name" id="fileName"></div>
+              <div class="file-size" id="fileSize"></div>
+            </div>
+            <button type="button" id="fileClear" class="btn ghost" style="padding:8px 12px;font-size:.85rem;">Replace</button>
+          </div>
+        </label>
+        <p id="uploadStatus" class="status" aria-live="polite"></p>
+      </section>
+
+      <section id="step-find" class="card hidden">
+        <h2>2. Find &amp; replace</h2>
+        <label>{{.Editor.labels.oldLabel}}
+          <input id="oldText" type="text" autocomplete="off" placeholder="e.g. John Doe">
+        </label>
+        <label>{{.Editor.labels.newLabel}}
+          <input id="newText" type="text" autocomplete="off" placeholder="e.g. Jane Smith">
+        </label>
+
+        <div class="weight-toggles" role="group" aria-label="{{.Editor.labels.weightLabel}}">
+          <span class="weight-label">{{.Editor.labels.weightLabel}}</span>
+          <label class="weight-pill">
+            <input id="boldToggle" type="checkbox">
+            <span><strong>B</strong> Bold</span>
+          </label>
+          <label class="weight-pill">
+            <input id="italicToggle" type="checkbox">
+            <span><em>I</em> Italic</span>
+          </label>
+          <span class="weight-hint">{{.Editor.labels.weightHint}}</span>
+        </div>
+
+        <p id="diffWarn" class="status" aria-live="polite"></p>
+        <fieldset class="mode-group">
+          <legend>{{.Editor.labels.modeLabel}}</legend>
+          <label class="mode-opt">
+            <input type="radio" name="mode" value="vector" checked>
+            <div class="mode-card">
+              <div class="mode-ico">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg>
+              </div>
+              <div class="mode-meta">
+                <div class="mode-title">{{.Editor.labels.modeVectorTitle}}</div>
+                <div class="mode-hint">{{.Editor.labels.modeVectorHint}}</div>
+              </div>
+            </div>
+          </label>
+          <label class="mode-opt">
+            <input type="radio" name="mode" value="scanned">
+            <div class="mode-card">
+              <div class="mode-ico">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <div class="mode-meta">
+                <div class="mode-title">{{.Editor.labels.modeScannedTitle}}</div>
+                <div class="mode-hint">{{.Editor.labels.modeScannedHint}}</div>
+              </div>
+            </div>
+          </label>
+        </fieldset>
+
+        <button id="findBtn" class="btn primary">{{.Editor.labels.findBtn}}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <p id="findStatus" class="status" aria-live="polite"></p>
+      </section>
+
+      <section id="step-pages" class="card hidden">
+        <h2>3. Choose pages</h2>
+        <div class="row-actions">
+          <button id="selAll" class="btn ghost">{{.Editor.labels.selectAll}}</button>
+          <button id="selNone" class="btn ghost">{{.Editor.labels.selectNone}}</button>
+        </div>
+        <div id="pagesGrid" class="pages-grid"></div>
+        <button id="replaceBtn" class="btn primary big">{{.Editor.labels.replaceBtn}}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <p id="replaceStatus" class="status" aria-live="polite"></p>
+      </section>
+
+      <section id="step-download" class="card hidden">
+        <h2>4. {{.Editor.labels.downloadReady}}</h2>
+        <p class="editor-sub" style="margin-top:-6px;">Click below to save your edited PDF. The download starts immediately.</p>
+        <a id="downloadLink" class="btn primary big" href="#" download>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          {{.Editor.labels.downloadBtn}}
+        </a>
+      </section>
+
+      <section id="step-thanks" class="card hidden thanks-card">
+        <div class="thanks-burst" aria-hidden="true">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h2>{{.Editor.labels.thanksTitle}}</h2>
+        <p class="thanks-sub">{{.Editor.labels.thanksSub}}</p>
+        <div class="cta-row" style="margin-top:18px;">
+          <a id="downloadAgain" class="btn ghost" href="#" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {{.Editor.labels.thanksDownloadAgain}}
+          </a>
+          <button id="restartFlow" class="btn primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            {{.Editor.labels.thanksAnother}}
+          </button>
+        </div>
+        <p class="thanks-share">
+          {{.Editor.labels.thanksShareIntro}}
+          <a target="_blank" rel="noopener" id="shareTwitter" href="#">Twitter/X</a>,
+          <a target="_blank" rel="noopener" id="shareFacebook" href="#">Facebook</a>,
+          <a target="_blank" rel="noopener" id="shareLinkedIn" href="#">LinkedIn</a>,
+          <a id="shareCopy" href="#">{{.Editor.labels.thanksCopy}}</a>
+        </p>
+      </section>
+
+    </div>
+
+    <aside class="editor-side">
+      {{template "ad_slot" .}}
+      <div class="tips card">
+        <h3>Tips</h3>
+        <ul>
+          <li>Capitalisation matters when matching text.</li>
+          <li>Shorter replacements work best — longer text may overflow.</li>
+          <li>Files are auto-deleted after one hour.</li>
+          <li>Scanned PDFs need OCR first — not yet supported.</li>
+        </ul>
+      </div>
+      {{template "ad_slot" .}}
+    </aside>
+  </div>
+</section>
+</main>
+
+{{template "footer" .}}
+<script src="/static/js/editor.js"></script>
+<script src="/static/js/site.js"></script>
+</body>
+</html>{{end}}

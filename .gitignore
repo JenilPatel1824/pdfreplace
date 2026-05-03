@@ -1,0 +1,8 @@
+/storage/uploads/*
+/storage/output/*
+!/storage/uploads/.gitkeep
+!/storage/output/.gitkeep
+/pdfrep
+*.log
+.env
+.DS_Store

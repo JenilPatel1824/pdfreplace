@@ -1,0 +1,37 @@
+{{define "article.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>{{template "head" .}}
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":{{.Article.h1 | printf "%q"}},
+  "description":{{with .SEO}}{{.description | printf "%q"}}{{end}},
+  "url":"{{.CanonicalURL}}",
+  "author":{"@type":"Organization","name":"PDF Text Replace"}
+}</script>
+</head>
+<body>
+{{template "header" .}}
+
+<main>
+<article class="article reveal">
+  <h1>{{.Article.h1}}</h1>
+  <p class="lead">{{.Article.lead}}</p>
+
+  {{template "ad_slot" .}}
+
+  {{range .Article.sections}}
+    <h2>{{.h}}</h2>
+    <p>{{.p}}</p>
+  {{end}}
+
+  <p style="margin-top:32px"><a class="btn primary big" href="/editor">{{.Site.ctaPrimary}}</a></p>
+
+  {{template "ad_slot" .}}
+</article>
+</main>
+
+{{template "footer" .}}
+<script src="/static/js/site.js"></script>
+</body>
+</html>{{end}}

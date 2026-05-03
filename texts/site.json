@@ -1,0 +1,68 @@
+{
+  "brand": "PDF Text Replace",
+  "tagline": "Free online PDF text editor — find and replace text inside any PDF in seconds.",
+  "ctaPrimary": "Edit your PDF now",
+  "ctaSecondary": "How it works",
+  "nav": {
+    "home": "Home",
+    "editor": "Editor",
+    "guide": "Guide"
+  },
+  "footer": {
+    "copyright": "© PDF Text Replace. Free PDF editor — no signup, no watermark.",
+    "links": [
+      {"label": "How to replace text in a PDF", "href": "/how-to-replace-text-in-pdf"},
+      {"label": "Free PDF text replace", "href": "/pdf-text-replace-free"}
+    ]
+  },
+  "hero": {
+    "h1": "Free PDF Text Replace — Edit PDF Online",
+    "sub": "Upload a PDF, type the old text, type the new text, choose pages, and download. No installs. No watermark. No signup.",
+    "bullets": [
+      "Replace text in PDF for free",
+      "See live preview of every page",
+      "Pick exactly which pages to edit",
+      "Files deleted automatically after one hour"
+    ]
+  },
+  "features": [
+    {"icon": "search", "title": "Smart text search", "body": "We scan every page and highlight every match of your old text so you can confirm before replacing."},
+    {"icon": "pages", "title": "Page-level control", "body": "Tick the pages you want edited. Leave the rest of your PDF untouched."},
+    {"icon": "shield", "title": "Private & temporary", "body": "Your file is processed on our server and removed automatically. We never share or train on your data."},
+    {"icon": "free", "title": "Forever free", "body": "No paywall, no watermark, no daily limit. Ad-supported so it stays free."}
+  ],
+  "articles": {
+    "how-to-replace-text-in-pdf": {
+      "h1": "How to Replace Text in a PDF (Free, No Software)",
+      "lead": "A complete guide to editing text inside a PDF using a free online tool. Works on Windows, Mac, Linux, iPhone, and Android — all you need is a browser.",
+      "sections": [
+        {"h": "Why editing PDFs is harder than editing Word docs", "p": "PDFs lock text to absolute positions on the page so the layout never shifts. That makes them great for sharing and terrible for editing. Most desktop tools — including Adobe Acrobat — charge for the privilege. PDF Text Replace gives you the core feature for free in your browser."},
+        {"h": "Step 1 — Upload your PDF", "p": "Open the editor, click Upload, and pick your PDF. Files up to 25 MB are supported. Nothing is stored permanently — your file is auto-deleted within an hour."},
+        {"h": "Step 2 — Enter the old and new text", "p": "Type the exact text you want to find, then the replacement. Capitalisation matters. The tool searches every page and highlights every match in yellow."},
+        {"h": "Step 3 — Choose which pages to edit", "p": "Tick the page checkboxes for the pages you want changed. Leave the rest unchecked to keep them as-is. This is useful when, for example, only the cover page needs updating."},
+        {"h": "Step 4 — Download your edited PDF", "p": "Click Replace & download. Your edited PDF is ready in seconds. Open it, check the result, and save it locally."},
+        {"h": "Frequently asked questions", "p": "We've collected the most common questions in the FAQ on the homepage — including font preservation, image-based PDFs, and bulk replacements."}
+      ],
+      "seo": {
+        "title": "How to Replace Text in a PDF — Free Online Guide (2026)",
+        "description": "Step-by-step guide to replace text in a PDF online for free. No software, no signup, no watermark. Works in any browser.",
+        "keywords": "how to replace text in pdf, edit pdf text free, pdf text replace tutorial, change text in pdf"
+      }
+    },
+    "pdf-text-replace-free": {
+      "h1": "Free PDF Text Replace — Edit Any PDF Online Without Signup",
+      "lead": "PDF Text Replace is a 100% free browser-based PDF editor focused on one thing: finding text in a PDF and replacing it with new text. No trial. No paywall. No watermark on the output.",
+      "sections": [
+        {"h": "What you can do for free", "p": "Find any text on any page. Replace it with new text. Pick the exact pages where the change should happen. Download the result. As many times as you want."},
+        {"h": "What 'free' actually means here", "p": "The site is supported by Google ads in the sidebar and between page previews. The ads pay for the servers so you don't have to. We never charge, never gate features behind a login, and never add a watermark."},
+        {"h": "When this tool is the right choice", "p": "Fixing a typo on the cover of a contract. Updating a date or address across a brochure. Re-using a quote template by swapping the client name. Translating a single line. The tool is purpose-built for these surgical edits."},
+        {"h": "When you need something else", "p": "If your PDF is a scanned image (no selectable text), the tool can't find the text — you'll need an OCR step first. If you need to redesign layout, swap fonts, or move objects around, you want a full PDF editor like Acrobat or a free alternative like LibreOffice Draw."}
+      ],
+      "seo": {
+        "title": "Free PDF Text Replace — Edit PDF Online Free, No Watermark",
+        "description": "Replace text in any PDF for free. No signup, no watermark, no daily limit. Browser-based PDF editor. Works on every device.",
+        "keywords": "free pdf text replace, pdf text replace free, free pdf editor, edit pdf free online, replace text in pdf free"
+      }
+    }
+  }
+}

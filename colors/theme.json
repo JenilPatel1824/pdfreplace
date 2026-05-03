@@ -1,0 +1,58 @@
+{
+  "name": "default",
+  "description": "Modern theme. All colors live here — edit a value and the whole site re-skins.",
+  "tokens": {
+    "--bg":             "#fafbff",
+    "--bg-soft":        "#f3f5fb",
+    "--bg-muted":       "#e9ecf4",
+    "--bg-deep":        "#0b1020",
+
+    "--surface":        "#ffffff",
+    "--surface-2":      "#f8fafc",
+    "--surface-glass":  "rgba(255,255,255,0.72)",
+
+    "--border":         "#e6e9f1",
+    "--border-strong":  "#c7cce0",
+    "--border-focus":   "#7c8cff",
+
+    "--text":           "#0f172a",
+    "--text-soft":      "#374151",
+    "--text-muted":     "#6b7280",
+    "--text-inverse":   "#ffffff",
+
+    "--brand":          "#5b6cff",
+    "--brand-strong":   "#4453e8",
+    "--brand-soft":     "#e6e9ff",
+    "--brand-2":        "#a855f7",
+
+    "--accent":         "#10b981",
+    "--accent-strong":  "#059669",
+
+    "--warn":           "#f59e0b",
+    "--danger":         "#ef4444",
+
+    "--highlight":      "#fef3c7",
+    "--highlight-stroke":"#b45309",
+
+    "--ad-bg":          "#f4f5f9",
+    "--ad-border":      "#dee1eb",
+
+    "--grad-hero":      "linear-gradient(135deg,#5b6cff 0%,#a855f7 50%,#ec4899 100%)",
+    "--grad-soft":      "linear-gradient(180deg,#fafbff 0%,#eef0fb 100%)",
+    "--grad-card":      "linear-gradient(180deg,#ffffff 0%,#f8fafc 100%)",
+
+    "--shadow-xs":      "0 1px 2px rgba(15,23,42,.05)",
+    "--shadow-sm":      "0 2px 6px rgba(15,23,42,.06)",
+    "--shadow-md":      "0 8px 24px rgba(15,23,42,.08)",
+    "--shadow-lg":      "0 20px 50px rgba(15,23,42,.14)",
+    "--shadow-brand":   "0 12px 30px rgba(91,108,255,.32)",
+
+    "--radius-sm":      "8px",
+    "--radius-md":      "14px",
+    "--radius-lg":      "20px",
+    "--radius-xl":      "28px",
+
+    "--ease":           "cubic-bezier(.2,.8,.2,1)",
+    "--dur":            "260ms"
+  }
+}

@@ -1,0 +1,72 @@
+{{define "head"}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{with .SEO}}{{.title}}{{else}}{{.Site.brand}}{{end}}</title>
+<meta name="description" content="{{with .SEO}}{{.description}}{{end}}">
+<meta name="keywords" content="{{with .SEO}}{{.keywords}}{{end}}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="{{.CanonicalURL}}">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{with .SEO}}{{.title}}{{end}}">
+<meta property="og:description" content="{{with .SEO}}{{.description}}{{end}}">
+<meta property="og:url" content="{{.CanonicalURL}}">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>{{.ThemeCSS}}</style>
+<link rel="stylesheet" href="/static/css/app.css">
+<link rel="preconnect" href="https://pagead2.googlesyndication.com">
+
+<!-- Google AdSense — REPLACE ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+{{end}}
+
+{{define "header"}}
+<header class="site-header">
+  <a class="brand" href="/">{{.Site.brand}}</a>
+  <nav>
+    <a href="/">{{.Site.nav.home}}</a>
+    <a href="/editor">{{.Site.nav.editor}}</a>
+    <a href="/how-to-replace-text-in-pdf">{{.Site.nav.guide}}</a>
+  </nav>
+</header>
+{{end}}
+
+{{define "footer"}}
+<footer class="site-footer">
+  <p>{{.Site.footer.copyright}}</p>
+  <ul>{{range .Site.footer.links}}<li><a href="{{.href}}">{{.label}}</a></li>{{end}}</ul>
+</footer>
+{{end}}
+
+{{define "ad_slot"}}
+<aside class="ad-slot" aria-label="Advertisement">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="0000000000"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</aside>
+{{end}}
+
+{{define "jsonld_software"}}
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"PDF Text Replace",
+  "applicationCategory":"BusinessApplication",
+  "operatingSystem":"Any",
+  "description":"Free online PDF text editor — find and replace text inside any PDF.",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "url":"{{.CanonicalURL}}",
+  "browserRequirements":"Requires JavaScript and a modern browser",
+  "featureList":[
+    "Free PDF text replace",
+    "Find and replace text in PDF",
+    "Page-level edit selection",
+    "No watermark, no signup"
+  ]
+}</script>
+{{end}}

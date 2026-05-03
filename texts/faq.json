@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "q": "Is PDF Text Replace really free?",
+      "a": "Yes — it's free for everyone, with no signup, no watermark, no trial period, and no daily limit. The site is funded by Google ads, not by selling features."
+    },
+    {
+      "q": "Will the original font and color be preserved?",
+      "a": "We try to match the original text size and color when possible. If the original font is embedded in the PDF and the replacement text fits in the same space, results look near-identical. For very stylized fonts the replacement may fall back to a similar typeface."
+    },
+    {
+      "q": "Can I edit a scanned PDF?",
+      "a": "Not yet. If your PDF is a scanned image, the text isn't selectable — it's just pixels. You'd need to run OCR (optical character recognition) first. We may add OCR support later."
+    },
+    {
+      "q": "Is my file private?",
+      "a": "Your file is uploaded to our server, processed, and automatically deleted within one hour. We never share files, never use them for AI training, and don't keep logs of file contents."
+    },
+    {
+      "q": "Why did my replacement text overflow?",
+      "a": "PDFs use absolute positioning — each character has fixed coordinates. If your new text is wider than the old, it can spill into nearby content. Try a shorter replacement, or break the change into smaller edits."
+    },
+    {
+      "q": "Can I replace text on only some pages?",
+      "a": "Yes — that's the whole point of the page selector. Tick the pages you want edited and untick the rest. The other pages won't be touched."
+    },
+    {
+      "q": "Does it work on mobile?",
+      "a": "Yes — the site works on iPhone and Android. Page previews are rendered as images so even a small screen can show them clearly."
+    },
+    {
+      "q": "What's the file size limit?",
+      "a": "25 MB per upload. If you have a bigger PDF, try splitting it first with a free PDF splitter."
+    }
+  ]
+}

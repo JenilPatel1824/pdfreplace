@@ -1,0 +1,14 @@
+{
+  "home": {
+    "title": "Free PDF Text Replace — Edit PDF Online Free, No Watermark",
+    "description": "Replace text in any PDF for free. Upload, find & replace, pick pages, download. No signup, no watermark, no daily limit. Free PDF editor that works in any browser.",
+    "keywords": "pdf text replace, free pdf text replace, edit pdf, pdf editor free, replace text in pdf, pdf find and replace, edit pdf online, free pdf editor, change text in pdf, modify pdf text",
+    "ogImage": "/static/og-home.png"
+  },
+  "editor": {
+    "title": "PDF Editor — Replace Text in PDF Online (Free)",
+    "description": "Browser-based PDF editor. Find any text, replace it, choose which pages to edit, and download. 100% free, no signup, no watermark.",
+    "keywords": "pdf editor, edit pdf, pdf find and replace, replace text in pdf, online pdf editor",
+    "ogImage": "/static/og-editor.png"
+  }
+}
