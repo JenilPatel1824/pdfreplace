@@ -1,0 +1,250 @@
+{
+  "seo_index": {
+    "title": "Free PDF Tools — Merge, Split, Compress, Rotate, Edit",
+    "description": "All-in-one free PDF toolkit. Merge, split, compress, rotate, remove pages, find & replace text — no signup, no watermark, works in your browser.",
+    "keywords": "pdf tools, merge pdf, split pdf, compress pdf, rotate pdf, remove pages pdf, free pdf editor, online pdf tools",
+    "ogImage": "/static/og-home.png"
+  },
+  "index": {
+    "h1": "Free PDF Tools",
+    "lead": "A focused toolkit for the things people actually do to PDFs every day. Each tool runs server-side, finishes in seconds, and gives you a clean download — no signup, no watermark, no ads in the file.",
+    "categoryHeadings": {
+      "edit": "Edit",
+      "organize": "Organise pages",
+      "optimise": "Optimise"
+    }
+  },
+  "tools": {
+    "merge-pdf": {
+      "slug": "merge-pdf",
+      "category": "organize",
+      "icon": "merge",
+      "title": "Merge PDFs",
+      "shortDesc": "Combine 2 or more PDFs into a single document, in the order you choose.",
+      "h1": "Merge PDF Files Online — Free",
+      "lead": "Drag your PDFs in the order you want them combined. They're stitched into a single PDF you can download in seconds. Works on any number of files up to 100 MB total.",
+      "ui": {
+        "uploadCta": "Drop PDFs here, or click to choose",
+        "uploadHint": "2–20 PDFs · up to 100 MB combined",
+        "actionBtn": "Merge PDFs",
+        "downloadName": "merged.pdf",
+        "successTitle": "Your merged PDF is ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your PDFs", "p": "Drop multiple PDFs onto the upload area or click to browse. The order you add them is the order they'll be merged in."},
+        {"n": 2, "h": "Reorder if needed", "p": "Drag the file cards to change order. Remove any file you didn't mean to add."},
+        {"n": 3, "h": "Click Merge", "p": "We process server-side and stream back a single PDF. Files auto-delete from our servers within an hour."},
+        {"n": 4, "h": "Download", "p": "Open the merged PDF, verify the page order, save it to disk."}
+      ],
+      "useCases": [
+        "Combine multiple bank statements into one annual file before tax season.",
+        "Stitch a cover letter, CV, and portfolio into a single application packet.",
+        "Merge separate scan files of a multi-page form before submitting.",
+        "Bundle vendor invoices for a single month into one accounting document."
+      ],
+      "faq": [
+        {"q": "Is the order preserved?", "a": "Yes — files are merged in the exact order shown in the editor. Drag-and-drop to rearrange before clicking Merge."},
+        {"q": "Are bookmarks and metadata kept?", "a": "Page-level content, links, and form fields carry over. Top-level bookmarks from the first PDF are preserved; bookmarks from subsequent PDFs are merged in below."},
+        {"q": "Is there a file count limit?", "a": "20 files per merge, 100 MB total. If you need more, merge in batches and combine the result."},
+        {"q": "Do you keep my files?", "a": "Files are auto-deleted within one hour. We never share, train on, or look at the contents."}
+      ],
+      "seo": {
+        "title": "Merge PDF — Combine PDF Files Online Free, No Watermark",
+        "description": "Merge multiple PDFs into one in seconds. Free, no signup, no watermark, no daily limit. Drag-and-drop reordering, up to 20 files at a time.",
+        "keywords": "merge pdf, combine pdf, join pdf files, merge pdf online free, pdf merger no watermark"
+      }
+    },
+
+    "split-pdf": {
+      "slug": "split-pdf",
+      "category": "organize",
+      "icon": "split",
+      "title": "Split PDF",
+      "shortDesc": "Break a PDF into separate files — every page, every N pages, or at chosen page numbers.",
+      "h1": "Split PDF Online — Free",
+      "lead": "Split a PDF into individual pages, fixed-size chunks, or custom page ranges. Get back a zip with each part as its own PDF.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Split PDF",
+        "downloadName": "split.zip",
+        "successTitle": "Your split PDFs are ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your PDF", "p": "Drop a single PDF onto the upload area."},
+        {"n": 2, "h": "Pick a split mode", "p": "Every page (one PDF per page), every N pages (fixed chunks), or specific split points."},
+        {"n": 3, "h": "Click Split", "p": "We slice it server-side and bundle the parts into a zip."},
+        {"n": 4, "h": "Download the zip", "p": "Inside is one PDF per part, named in page order."}
+      ],
+      "useCases": [
+        "Extract a single chapter from an ebook or report.",
+        "Split a 200-page contract into per-section PDFs for routing.",
+        "Send only one statement out of an annual bank PDF.",
+        "Split a presentation into per-slide files for sharing."
+      ],
+      "faq": [
+        {"q": "What does 'every N pages' do?", "a": "If N=3 on a 12-page PDF, you get 4 files: pages 1-3, 4-6, 7-9, 10-12."},
+        {"q": "What does 'split at pages' do?", "a": "Specify the first page of each new chunk. e.g., 4,7 on a 10-page PDF = files for pages 1-3, 4-6, 7-10."},
+        {"q": "Why a zip download?", "a": "Browsers don't trigger multiple PDF downloads at once. A zip lets you save all parts in a single click."}
+      ],
+      "seo": {
+        "title": "Split PDF — Break a PDF into Pages or Ranges, Free",
+        "description": "Split a PDF into separate files free. Per-page, fixed chunks, or custom page ranges. Bundled as a zip for one-click download.",
+        "keywords": "split pdf, pdf splitter, separate pdf pages, extract pages from pdf, divide pdf"
+      }
+    },
+
+    "remove-pages-pdf": {
+      "slug": "remove-pages-pdf",
+      "category": "organize",
+      "icon": "remove",
+      "title": "Remove pages",
+      "shortDesc": "Delete specific pages from a PDF — type the pages or ranges to drop.",
+      "h1": "Remove Pages from a PDF — Free",
+      "lead": "Type the pages you want to drop using ranges (e.g. <code>1,3-5,9</code>) and we'll write a new PDF without them.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Remove pages",
+        "downloadName": "trimmed.pdf",
+        "successTitle": "Pages removed — download ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your PDF", "p": "We show the page count once it's loaded."},
+        {"n": 2, "h": "Type pages to remove", "p": "Comma-separated, ranges allowed. Examples: <code>2</code>, <code>1,3,5</code>, <code>4-7</code>, <code>1,3-5,9</code>."},
+        {"n": 3, "h": "Click Remove pages", "p": "We rebuild the PDF without those pages and send it back."},
+        {"n": 4, "h": "Download", "p": "Verify the result — page numbering and bookmarks are renumbered automatically."}
+      ],
+      "useCases": [
+        "Drop blank dividers, cover sheets, or appendices before sharing.",
+        "Remove an internal-only page before sending the PDF to a client.",
+        "Strip out the marketing pages from a scanned report.",
+        "Delete a wrong scan from a multi-page form."
+      ],
+      "faq": [
+        {"q": "Can I keep pages instead of removing?", "a": "We invert your selection internally. To keep only pages 2 and 4 of an 8-page PDF, remove <code>1,3,5-8</code>."},
+        {"q": "What happens to bookmarks?", "a": "Bookmarks pointing to removed pages are dropped; others are preserved with new page numbers."},
+        {"q": "Why a ranges syntax?", "a": "It scales — typing 'remove pages 5-200' beats clicking each one. Same syntax used by pdfcpu and most PDF CLIs."}
+      ],
+      "seo": {
+        "title": "Remove Pages from PDF — Free Online, No Signup",
+        "description": "Delete specific pages from a PDF using simple page ranges. Free, no watermark, no signup. Output is renumbered cleanly.",
+        "keywords": "remove pages from pdf, delete pages pdf, trim pdf, pdf page remover"
+      }
+    },
+
+    "remove-empty-pages": {
+      "slug": "remove-empty-pages",
+      "category": "organize",
+      "icon": "broom",
+      "title": "Remove empty pages",
+      "shortDesc": "Auto-detect and drop blank pages from a scan or generated PDF.",
+      "h1": "Remove Blank Pages from a PDF — Free",
+      "lead": "Common in scans (back of one-sided documents) and report generators (page-break artefacts). We render every page, detect 99%+ white pages with no extractable text, and rebuild the PDF without them.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Remove blank pages",
+        "downloadName": "cleaned.pdf",
+        "successTitle": "Cleaned — download ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload", "p": "Drop the PDF that has blank pages mixed in."},
+        {"n": 2, "h": "Click Remove blank pages", "p": "We render every page and check it for content."},
+        {"n": 3, "h": "Review results", "p": "We tell you which page numbers were dropped before you download — no surprises."},
+        {"n": 4, "h": "Download", "p": "The cleaned PDF, blanks gone, page numbers renumbered."}
+      ],
+      "useCases": [
+        "Clean up a duplex scan where every other page is empty.",
+        "Trim auto-generated reports that have stray blank divider pages.",
+        "Pre-process a PDF before printing to save paper."
+      ],
+      "faq": [
+        {"q": "How is 'blank' decided?", "a": "Two checks: pdftotext extracts no readable text from the page, AND ≥99% of rendered pixels are within 5 luminance points of pure white."},
+        {"q": "Will it remove pages with just a logo or watermark?", "a": "Probably not — the watermark fails the 99% white threshold. If you have a near-blank page that you DO want removed, use Remove pages with a manual selection."},
+        {"q": "What if every page looks blank?", "a": "We refuse to save an empty file and return an error. Likely your PDF is image-only with content; try a different tool."}
+      ],
+      "seo": {
+        "title": "Remove Blank Pages from PDF — Auto-detect Empty Pages Free",
+        "description": "Auto-detect and remove blank pages from any PDF — scans, reports, generated docs. Two-pass detector (text + pixel scan), free, no signup.",
+        "keywords": "remove blank pages pdf, empty page remover, delete blank pages pdf, blank page detector"
+      }
+    },
+
+    "rotate-pdf": {
+      "slug": "rotate-pdf",
+      "category": "edit",
+      "icon": "rotate",
+      "title": "Rotate PDF",
+      "shortDesc": "Rotate all pages or selected pages by 90, 180, or 270 degrees.",
+      "h1": "Rotate PDF Pages — Free",
+      "lead": "Phone scans often come out sideways. Rotate the whole PDF or just the offending pages and download the corrected file.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Rotate PDF",
+        "downloadName": "rotated.pdf",
+        "successTitle": "Rotated PDF ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload", "p": "Drop in your sideways PDF."},
+        {"n": 2, "h": "Pick angle and pages", "p": "90° clockwise, 180°, or 90° counter-clockwise (270°). Optionally limit to specific page ranges."},
+        {"n": 3, "h": "Rotate", "p": "We apply the rotation server-side."},
+        {"n": 4, "h": "Download", "p": "Open it — it should view in the right orientation everywhere."}
+      ],
+      "useCases": [
+        "Fix a scanner that fed pages sideways.",
+        "Rotate landscape charts in a portrait report so they print correctly.",
+        "Flip a 180° upside-down scan."
+      ],
+      "faq": [
+        {"q": "Does this rotate the page or the content?", "a": "It sets the PDF page rotation flag, which is what every viewer respects. The content is untouched and re-rotates correctly when you copy text out."},
+        {"q": "Can I rotate different pages by different amounts?", "a": "Run the tool once per angle. Each pass overwrites the previous rotation flag for the pages you select."}
+      ],
+      "seo": {
+        "title": "Rotate PDF Pages Online — Free, 90 / 180 / 270 Degrees",
+        "description": "Rotate a PDF clockwise, anti-clockwise, or 180° online for free. Apply to all pages or specific page ranges. No signup, no watermark.",
+        "keywords": "rotate pdf, rotate pdf pages, fix sideways pdf, rotate pdf online free"
+      }
+    },
+
+    "compress-pdf": {
+      "slug": "compress-pdf",
+      "category": "optimise",
+      "icon": "compress",
+      "title": "Compress PDF",
+      "shortDesc": "Reduce PDF file size by deduplicating resources and re-encoding streams.",
+      "h1": "Compress PDF Online — Free",
+      "lead": "Shrink large PDFs to email-friendly sizes. We dedupe shared resources, re-encode content streams, and remove unreferenced objects. Typical gains: 5–30% on text-heavy PDFs.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Compress PDF",
+        "downloadName": "compressed.pdf",
+        "successTitle": "Compressed — download ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload", "p": "Drop the bloated PDF."},
+        {"n": 2, "h": "Click Compress", "p": "We optimise on the server."},
+        {"n": 3, "h": "See the savings", "p": "We tell you the original size vs the compressed size before you download."},
+        {"n": 4, "h": "Download", "p": "Identical visuals, smaller file."}
+      ],
+      "useCases": [
+        "Email a 20 MB PDF that bounced your client's 10 MB inbox limit.",
+        "Speed up uploading large reports to a CMS.",
+        "Reduce storage cost for long-archived PDFs.",
+        "Make a PDF small enough to upload to a job application portal."
+      ],
+      "faq": [
+        {"q": "Does compression hurt quality?", "a": "No — this is a lossless pass. We don't re-encode images at lower resolution. If you need aggressive image-level compression for a 100 MB scan, you'll need a separate image-aware tool."},
+        {"q": "Why didn't my PDF shrink much?", "a": "If it was already optimised (most modern PDFs are) the gain is small. Image-heavy PDFs especially have less room — the bytes are mostly in JPEG/PNG streams that are already compressed."},
+        {"q": "Is the appearance identical?", "a": "Yes. Open the original and the compressed version side-by-side — pages should be pixel-identical."}
+      ],
+      "seo": {
+        "title": "Compress PDF — Reduce PDF File Size Online Free",
+        "description": "Compress PDF files online for free. Lossless optimisation — no quality loss, no signup, no watermark. Typical savings 5–30%.",
+        "keywords": "compress pdf, reduce pdf file size, pdf compressor, optimise pdf, smaller pdf"
+      }
+    }
+  }
+}

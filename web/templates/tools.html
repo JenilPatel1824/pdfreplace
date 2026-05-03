@@ -1,0 +1,60 @@
+{{define "tools.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>{{template "head" .}}
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"CollectionPage",
+  "name":{{with .SEO}}{{.title | json}}{{end}},
+  "url":"{{.CanonicalURL}}",
+  "description":{{with .SEO}}{{.description | json}}{{end}},
+  "isPartOf":{"@type":"WebSite","name":{{.Site.brand | json}},"url":{{printf "%s/" .SiteOrigin | json}}}
+}</script>
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":{{printf "%s/" .SiteOrigin | json}}},
+    {"@type":"ListItem","position":2,"name":"All tools","item":{{printf "%s/tools" .SiteOrigin | json}}}
+  ]
+}</script>
+</head>
+<body>
+{{template "header" .}}
+
+<main>
+<section class="tools-hero reveal">
+  <span class="section-eyebrow">All tools</span>
+  <h1>{{.Index.h1}}</h1>
+  <p class="lead">{{.Index.lead}}</p>
+</section>
+
+{{template "ad_slot" .}}
+
+{{$cats := .Index.categoryHeadings}}
+{{range $catKey, $catLabel := $cats}}
+<section class="tools-cat reveal">
+  <h2>{{$catLabel}}</h2>
+  <div class="tools-grid">
+    {{range $slug, $tool := $.Tools}}{{if eq $tool.category $catKey}}
+    <a class="tool-card" href="/{{$tool.slug}}">
+      <div class="tool-ico">{{template "tool_icon" $tool.icon}}</div>
+      <div class="tool-meta">
+        <div class="tool-title">{{$tool.title}}</div>
+        <div class="tool-short">{{$tool.shortDesc}}</div>
+      </div>
+      <div class="tool-arrow">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+    </a>
+    {{end}}{{end}}
+  </div>
+</section>
+{{end}}
+
+{{template "ad_slot" .}}
+</main>
+
+{{template "footer" .}}
+<script src="/static/js/site.js"></script>
+</body>
+</html>{{end}}

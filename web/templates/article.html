@@ -4,23 +4,23 @@
 <script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"Article",
-  "headline":{{.Article.h1 | printf "%q"}},
-  "description":{{with .SEO}}{{.description | printf "%q"}}{{end}},
+  "headline":{{.Article.h1 | json}},
+  "description":{{with .SEO}}{{.description | json}}{{end}},
   "inLanguage":"en-US",
   "url":"{{.CanonicalURL}}",
   "mainEntityOfPage":{"@type":"WebPage","@id":"{{.CanonicalURL}}"},
-  "image":[{"@type":"ImageObject","url":{{printf "%s%s" .SiteOrigin .OGImage | printf "%q"}},"width":1200,"height":630}],
-  "datePublished":{{with index .Article "datePublished"}}{{printf "%q" .}}{{else}}""{{end}},
-  "dateModified":{{with index .Article "dateModified"}}{{printf "%q" .}}{{else}}""{{end}},
-  "author":{"@type":"Organization","name":{{.Site.brand | printf "%q"}},"url":{{printf "%s/" .SiteOrigin | printf "%q"}}},
-  "publisher":{"@type":"Organization","name":{{.Site.brand | printf "%q"}},"url":{{printf "%s/" .SiteOrigin | printf "%q"}},"logo":{"@type":"ImageObject","url":{{printf "%s/static/logo-publisher.png" .SiteOrigin | printf "%q"}},"width":600,"height":60}}
+  "image":[{"@type":"ImageObject","url":{{printf "%s%s" .SiteOrigin .OGImage | json}},"width":1200,"height":630}],
+  "datePublished":{{with index .Article "datePublished"}}{{json .}}{{else}}""{{end}},
+  "dateModified":{{with index .Article "dateModified"}}{{json .}}{{else}}""{{end}},
+  "author":{"@type":"Organization","name":{{.Site.brand | json}},"url":{{printf "%s/" .SiteOrigin | json}}},
+  "publisher":{"@type":"Organization","name":{{.Site.brand | json}},"url":{{printf "%s/" .SiteOrigin | json}},"logo":{"@type":"ImageObject","url":{{printf "%s/static/logo-publisher.png" .SiteOrigin | json}},"width":600,"height":60}}
 }</script>
 <script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"BreadcrumbList",
   "itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Home","item":{{printf "%s/" .SiteOrigin | printf "%q"}}},
-    {"@type":"ListItem","position":2,"name":{{.Article.h1 | printf "%q"}},"item":{{.CanonicalURL | printf "%q"}}}
+    {"@type":"ListItem","position":1,"name":"Home","item":{{printf "%s/" .SiteOrigin | json}}},
+    {"@type":"ListItem","position":2,"name":{{.Article.h1 | json}},"item":{{.CanonicalURL | json}}}
   ]
 }</script>
 </head>

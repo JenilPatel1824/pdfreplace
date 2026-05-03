@@ -47,17 +47,17 @@
 <script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"Organization",
-  "name":{{.Site.brand | printf "%q"}},
-  "url":{{printf "%s/" .SiteOrigin | printf "%q"}},
-  "logo":{"@type":"ImageObject","url":{{printf "%s/static/logo-publisher.png" .SiteOrigin | printf "%q"}},"width":600,"height":60}
+  "name":{{.Site.brand | json}},
+  "url":{{printf "%s/" .SiteOrigin | json}},
+  "logo":{"@type":"ImageObject","url":{{printf "%s/static/logo-publisher.png" .SiteOrigin | json}},"width":600,"height":60}
 }</script>
 <script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"WebSite",
-  "name":{{.Site.brand | printf "%q"}},
-  "url":{{printf "%s/" .SiteOrigin | printf "%q"}},
+  "name":{{.Site.brand | json}},
+  "url":{{printf "%s/" .SiteOrigin | json}},
   "inLanguage":"en-US",
-  "publisher":{"@type":"Organization","name":{{.Site.brand | printf "%q"}},"logo":{"@type":"ImageObject","url":{{printf "%s/static/logo-publisher.png" .SiteOrigin | printf "%q"}},"width":600,"height":60}}
+  "publisher":{"@type":"Organization","name":{{.Site.brand | json}},"logo":{"@type":"ImageObject","url":{{printf "%s/static/logo-publisher.png" .SiteOrigin | json}},"width":600,"height":60}}
 }</script>
 {{end}}
 
@@ -67,6 +67,7 @@
   <nav>
     <a href="/">{{.Site.nav.home}}</a>
     <a href="/editor">{{.Site.nav.editor}}</a>
+    <a href="/tools">{{or .Site.nav.tools "All tools"}}</a>
     <a href="/how-to-replace-text-in-pdf">{{.Site.nav.guide}}</a>
   </nav>
 </header>
@@ -91,6 +92,16 @@
 </aside>
 {{end}}
 
+{{define "tool_icon"}}
+{{if eq . "merge"}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 6 8 2 16 2 16 6"/><rect x="4" y="6" width="16" height="14" rx="2"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+{{else if eq . "split"}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><polyline points="6 9 12 3 18 9"/><polyline points="6 15 12 21 18 15"/></svg>
+{{else if eq . "remove"}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+{{else if eq . "broom"}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.4 15 21 13.4l-9-9L10.4 6"/><path d="m11 9-7 7v4h4l7-7"/><line x1="12" y1="20" x2="20" y2="20"/></svg>
+{{else if eq . "rotate"}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+{{else if eq . "compress"}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+{{else}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>{{end}}
+{{end}}
+
 {{define "jsonld_software"}}
 <script type="application/ld+json">{
   "@context":"https://schema.org",
@@ -110,6 +121,6 @@
     "Page-level edit selection",
     "No watermark, no signup"
   ],
-  "author":{"@type":"Organization","name":{{.Site.brand | printf "%q"}},"url":{{printf "%s/" .SiteOrigin | printf "%q"}}}
+  "author":{"@type":"Organization","name":{{.Site.brand | json}},"url":{{printf "%s/" .SiteOrigin | json}}}
 }</script>
 {{end}}

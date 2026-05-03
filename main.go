@@ -2,6 +2,7 @@ package main
 
 import (
 	"compress/gzip"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"html/template"
@@ -23,8 +24,19 @@ func main() {
 
 	mustDir(filepath.Join(*storage, "uploads"))
 	mustDir(filepath.Join(*storage, "output"))
+	mustDir(filepath.Join(*storage, "tools"))
 
-	tpl := template.Must(template.ParseGlob("web/templates/*.html"))
+	funcs := template.FuncMap{
+		"add":  func(a, b int) int { return a + b },
+		"json": func(v any) (template.JS, error) {
+			b, err := json.Marshal(v)
+			if err != nil {
+				return "", err
+			}
+			return template.JS(b), nil
+		},
+	}
+	tpl := template.Must(template.New("").Funcs(funcs).ParseGlob("web/templates/*.html"))
 
 	theme := handlers.LoadJSON("colors/theme.json")
 	app := &handlers.App{
@@ -36,6 +48,7 @@ func main() {
 		SEO:        handlers.LoadJSON("texts/seo.json"),
 		UseCases:   handlers.LoadJSON("texts/usecases.json"),
 		LegalPages: handlers.LoadJSON("texts/legal.json"),
+		ToolsText:  handlers.LoadJSON("texts/tools.json"),
 		Theme:      theme,
 		ThemeCSS:   handlers.BuildThemeCSS(theme),
 	}
@@ -73,12 +86,37 @@ func main() {
 		app.Legal(w, r, "about")
 	})
 
+	// PDF tools
+	mux.HandleFunc("GET /tools", app.ToolsIndex)
+	for _, slug := range []string{
+		"merge-pdf",
+		"split-pdf",
+		"remove-pages-pdf",
+		"remove-empty-pages",
+		"rotate-pdf",
+		"compress-pdf",
+	} {
+		slug := slug
+		mux.HandleFunc("GET /"+slug, func(w http.ResponseWriter, r *http.Request) {
+			app.ToolPage(w, r, slug)
+		})
+	}
+
 	// API
 	mux.HandleFunc("POST /api/upload", app.Upload)
 	mux.HandleFunc("GET /api/page-image/{id}/{page}", app.PageImage)
 	mux.HandleFunc("POST /api/find", app.Find)
 	mux.HandleFunc("POST /api/replace", app.Replace)
 	mux.HandleFunc("GET /download/{id}", app.Download)
+
+	// Tool APIs
+	mux.HandleFunc("POST /api/tools/merge", app.MergePDFsHandler)
+	mux.HandleFunc("POST /api/tools/split", app.SplitPDFHandler)
+	mux.HandleFunc("POST /api/tools/remove-pages", app.RemovePagesHandler)
+	mux.HandleFunc("POST /api/tools/remove-empty-pages", app.RemoveEmptyPagesHandler)
+	mux.HandleFunc("POST /api/tools/rotate", app.RotatePDFHandler)
+	mux.HandleFunc("POST /api/tools/compress", app.CompressPDFHandler)
+	mux.HandleFunc("GET /download-tool/{id}/{filename}", app.DownloadTool)
 
 	// SEO
 	mux.HandleFunc("GET /robots.txt", seo.Robots)

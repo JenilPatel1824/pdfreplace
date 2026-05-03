@@ -6,11 +6,19 @@
   "nav": {
     "home": "Home",
     "editor": "Editor",
+    "tools": "All tools",
     "guide": "Guide"
   },
   "footer": {
     "copyright": "© PDF Text Replace. Free PDF editor — no signup, no watermark.",
     "links": [
+      {"label": "All PDF tools", "href": "/tools"},
+      {"label": "Merge PDFs", "href": "/merge-pdf"},
+      {"label": "Split PDF", "href": "/split-pdf"},
+      {"label": "Compress PDF", "href": "/compress-pdf"},
+      {"label": "Rotate PDF", "href": "/rotate-pdf"},
+      {"label": "Remove pages", "href": "/remove-pages-pdf"},
+      {"label": "Remove blank pages", "href": "/remove-empty-pages"},
       {"label": "How to replace text in a PDF", "href": "/how-to-replace-text-in-pdf"},
       {"label": "Free PDF text replace", "href": "/pdf-text-replace-free"},
       {"label": "Replace text in invoices", "href": "/replace-text-in-invoice"},

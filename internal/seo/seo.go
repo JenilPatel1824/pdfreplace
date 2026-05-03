@@ -38,6 +38,13 @@ func Sitemap(w http.ResponseWriter, r *http.Request) {
 	}{
 		{"/", "1.0", "weekly", "2026-05-03"},
 		{"/editor", "0.9", "weekly", "2026-05-03"},
+		{"/tools", "0.9", "weekly", "2026-05-03"},
+		{"/merge-pdf", "0.9", "monthly", "2026-05-03"},
+		{"/split-pdf", "0.9", "monthly", "2026-05-03"},
+		{"/compress-pdf", "0.9", "monthly", "2026-05-03"},
+		{"/rotate-pdf", "0.85", "monthly", "2026-05-03"},
+		{"/remove-pages-pdf", "0.85", "monthly", "2026-05-03"},
+		{"/remove-empty-pages", "0.8", "monthly", "2026-05-03"},
 		{"/how-to-replace-text-in-pdf", "0.8", "monthly", "2026-05-03"},
 		{"/pdf-text-replace-free", "0.8", "monthly", "2026-05-03"},
 		{"/pdf-text-replace-vs-adobe-acrobat", "0.75", "monthly", "2026-05-03"},

@@ -1,0 +1,131 @@
+{{define "tool.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>{{template "head" .}}
+
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":{{.Tool.title | json}},
+  "applicationCategory":"BusinessApplication",
+  "operatingSystem":"Windows, macOS, Linux, Android, iOS",
+  "inLanguage":"en-US",
+  "isAccessibleForFree":true,
+  "description":{{.Tool.shortDesc | json}},
+  "url":"{{.CanonicalURL}}",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "browserRequirements":"Requires JavaScript and a modern HTML5 browser",
+  "author":{"@type":"Organization","name":{{.Site.brand | json}},"url":{{printf "%s/" .SiteOrigin | json}}}
+}</script>
+
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"HowTo",
+  "name":{{.Tool.h1 | json}},
+  "description":{{.Tool.lead | json}},
+  "step":[
+{{range $i, $s := .Tool.steps}}{{if $i}},{{end}}{
+  "@type":"HowToStep",
+  "position":{{add $i 1}},
+  "name":{{$s.h | json}},
+  "text":{{$s.p | json}}
+}{{end}}
+  ]
+}</script>
+
+{{with .Tool.faq}}<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+{{range $i, $f := .}}{{if $i}},{{end}}{
+  "@type":"Question",
+  "name":{{$f.q | json}},
+  "acceptedAnswer":{"@type":"Answer","text":{{$f.a | json}}}
+}{{end}}
+  ]
+}</script>{{end}}
+
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":{{printf "%s/" .SiteOrigin | json}}},
+    {"@type":"ListItem","position":2,"name":"All tools","item":{{printf "%s/tools" .SiteOrigin | json}}},
+    {"@type":"ListItem","position":3,"name":{{.Tool.title | json}},"item":"{{.CanonicalURL}}"}
+  ]
+}</script>
+</head>
+<body>
+{{template "header" .}}
+
+<main>
+<nav aria-label="Breadcrumb" class="crumbs">
+  <a href="/">Home</a> <span>/</span>
+  <a href="/tools">All tools</a> <span>/</span>
+  <span aria-current="page">{{.Tool.title}}</span>
+</nav>
+
+<section class="tool reveal" data-slug="{{.Slug}}">
+  <span class="section-eyebrow">{{.Tool.title}}</span>
+  <h1>{{.Tool.h1}}</h1>
+  <p class="lead">{{.Tool.lead}}</p>
+
+  <div class="tool-grid">
+    <div class="tool-main">
+      <div id="tool-app" class="card">
+        <!-- The tool's interactive UI is rendered by the per-tool JS based on data-slug. -->
+        <noscript>
+          <p class="status warn">This tool needs JavaScript enabled to upload files. All processing happens server-side; we just need JS for the upload form.</p>
+        </noscript>
+      </div>
+
+      <section class="how reveal">
+        <h2>How it works</h2>
+        <ol class="steps">
+          {{range .Tool.steps}}<li>
+            <strong>{{.h}}</strong>
+            <p>{{.p}}</p>
+          </li>{{end}}
+        </ol>
+      </section>
+
+      {{template "ad_slot" .}}
+
+      {{with .Tool.useCases}}<section class="usecases reveal">
+        <h2>When to use this tool</h2>
+        <ul>
+          {{range .}}<li>{{.}}</li>{{end}}
+        </ul>
+      </section>{{end}}
+
+      {{with .Tool.faq}}<section class="faq reveal">
+        <h2>Frequently asked questions</h2>
+        {{range .}}<details><summary>{{.q}}</summary><p>{{.a}}</p></details>{{end}}
+      </section>{{end}}
+    </div>
+
+    <aside class="tool-side">
+      {{template "ad_slot" .}}
+      <div class="tips card">
+        <h3>Other tools</h3>
+        <ul class="other-tools">
+          <li><a href="/editor">Find &amp; replace text</a></li>
+          <li><a href="/merge-pdf">Merge PDFs</a></li>
+          <li><a href="/split-pdf">Split PDF</a></li>
+          <li><a href="/remove-pages-pdf">Remove pages</a></li>
+          <li><a href="/remove-empty-pages">Remove blank pages</a></li>
+          <li><a href="/rotate-pdf">Rotate PDF</a></li>
+          <li><a href="/compress-pdf">Compress PDF</a></li>
+        </ul>
+      </div>
+      {{template "ad_slot" .}}
+    </aside>
+  </div>
+</section>
+</main>
+
+{{template "footer" .}}
+<script src="/static/js/site.js"></script>
+<script src="/static/js/tool.js"></script>
+<script id="tool-config" type="application/json">{{.Tool | json}}</script>
+</body>
+</html>{{end}}

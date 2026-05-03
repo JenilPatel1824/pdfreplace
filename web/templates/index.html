@@ -5,13 +5,13 @@
 <script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"HowTo",
-  "name":{{index .Site.howTo "name" | printf "%q"}},
-  "description":{{index .Site.howTo "description" | printf "%q"}},
+  "name":{{index .Site.howTo "name" | json}},
+  "description":{{index .Site.howTo "description" | json}},
   "totalTime":"PT2M",
-  "tool":[{"@type":"HowToTool","name":{{.Site.brand | printf "%q"}},"url":{{printf "%s/editor" .SiteOrigin | printf "%q"}}}],
+  "tool":[{"@type":"HowToTool","name":{{.Site.brand | json}},"url":{{printf "%s/editor" .SiteOrigin | json}}}],
   "step":[
 {{range $i, $s := index .Site.howTo "steps"}}{{if $i}},{{end}}
-  {"@type":"HowToStep","name":{{index $s "name" | printf "%q"}},"text":{{index $s "text" | printf "%q"}}}
+  {"@type":"HowToStep","name":{{index $s "name" | json}},"text":{{index $s "text" | json}}}
 {{end}}
   ]
 }</script>
@@ -21,9 +21,25 @@
   "mainEntity":[
 {{range $i, $f := .FAQ}}{{if $i}},{{end}}{
   "@type":"Question",
-  "name":{{$f.q | printf "%q"}},
-  "acceptedAnswer":{"@type":"Answer","text":{{$f.a | printf "%q"}}}
+  "name":{{$f.q | json}},
+  "acceptedAnswer":{"@type":"Answer","text":{{$f.a | json}}}
 }{{end}}
+  ]
+}</script>
+
+{{/* ItemList JSON-LD — every tool, named + linked. Helps Google understand
+    that the home page is the index for these tool URLs. Editor is item 1. */}}
+{{$origin := .SiteOrigin}}
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"ItemList",
+  "name":"PDF tools",
+  "itemListOrder":"http://schema.org/ItemListOrderAscending",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"url":{{printf "%s/editor" $origin | json}},"name":"Find & replace text in PDF","description":"Find selectable text in any PDF and replace it with new text on chosen pages."}
+{{range $i, $t := .Tools}},
+    {"@type":"ListItem","position":{{add $i 2}},"url":{{printf "%s/%s" $origin $t.slug | json}},"name":{{$t.title | json}},"description":{{$t.shortDesc | json}}}
+{{end}}
   ]
 }</script>
 </head>
@@ -63,6 +79,39 @@
     </article>{{end}}
   </div>
 </section>
+
+<section id="tools" class="home-tools reveal">
+  <span class="section-eyebrow">All tools</span>
+  <h2>Free PDF tools — pick one to start</h2>
+  <p class="how-deck">Every tool runs server-side, finishes in seconds, and gives you a clean download. No signup, no watermark, no ads in the file.</p>
+  <div class="tools-grid">
+    <a class="tool-card featured" href="/editor">
+      <div class="tool-ico">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="tool-meta">
+        <div class="tool-title">Find &amp; replace text</div>
+        <div class="tool-short">Find selectable text in a PDF and replace it with new text on chosen pages — preserves font, size and color.</div>
+      </div>
+      <div class="tool-arrow">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+    </a>
+    {{range .Tools}}<a class="tool-card" href="/{{.slug}}">
+      <div class="tool-ico">{{template "tool_icon" .icon}}</div>
+      <div class="tool-meta">
+        <div class="tool-title">{{.title}}</div>
+        <div class="tool-short">{{.shortDesc}}</div>
+      </div>
+      <div class="tool-arrow">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+    </a>{{end}}
+  </div>
+  <p class="home-tools-more"><a href="/tools">Browse all tools →</a></p>
+</section>
+
+{{template "ad_slot" .}}
 
 <section id="how" class="how reveal">
   <span class="section-eyebrow">Workflow</span>

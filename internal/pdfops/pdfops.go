@@ -84,3 +84,22 @@ func RenderPage(pdf, page string) ([]byte, error) {
 	}
 	return os.ReadFile(prefix + ".png")
 }
+
+// runPdftotextPage extracts text from one page (1-based) as plain text.
+// Used by the blank-page detector and any tool that needs a quick
+// content snapshot without bbox info.
+func runPdftotextPage(pdf string, page int) (string, error) {
+	if page < 1 {
+		return "", fmt.Errorf("bad page %d", page)
+	}
+	cmd := exec.Command("pdftotext",
+		"-f", strconv.Itoa(page), "-l", strconv.Itoa(page),
+		pdf, "-")
+	var out, errBuf bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &errBuf
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("pdftotext: %w (%s)", err, errBuf.String())
+	}
+	return out.String(), nil
+}

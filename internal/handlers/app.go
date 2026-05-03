@@ -22,8 +22,9 @@ type App struct {
 	SEO        map[string]any
 	UseCases   map[string]any
 	LegalPages map[string]any
+	ToolsText  map[string]any // texts/tools.json — tool landing + per-tool copy
 	Theme      map[string]any
-	ThemeCSS   template.CSS // pre-rendered :root { --x: ... } block
+	ThemeCSS   template.CSS   // pre-rendered :root { --x: ... } block
 }
 
 // BuildThemeCSS turns the tokens map from colors/theme.json into a
@@ -127,10 +128,33 @@ func ogImagePath(seo any) string {
 
 func (a *App) Index(w http.ResponseWriter, r *http.Request) {
 	a.render(w, r, "index.html", map[string]any{
-		"FAQ":    a.FAQText["items"],
-		"SEO":    a.SEO["home"],
-		"OGType": "website",
+		"FAQ":       a.FAQText["items"],
+		"SEO":       a.SEO["home"],
+		"Tools":     a.toolsList(),
+		"ToolsCats": a.ToolsText["index"], // for category headings
+		"OGType":    "website",
 	})
+}
+
+// toolsList returns the tools as a stable-ordered slice ([{slug,...}]),
+// sorted by slug for deterministic rendering. Templates can range over
+// it with positional indices (used for ItemList JSON-LD).
+func (a *App) toolsList() []map[string]any {
+	tools, _ := a.ToolsText["tools"].(map[string]any)
+	slugs := make([]string, 0, len(tools))
+	for k := range tools {
+		slugs = append(slugs, k)
+	}
+	sort.Strings(slugs)
+	out := make([]map[string]any, 0, len(slugs))
+	for _, k := range slugs {
+		t, ok := tools[k].(map[string]any)
+		if !ok {
+			continue
+		}
+		out = append(out, t)
+	}
+	return out
 }
 
 func (a *App) Editor(w http.ResponseWriter, r *http.Request) {
@@ -178,6 +202,33 @@ func (a *App) Legal(w http.ResponseWriter, r *http.Request, id string) {
 	a.render(w, r, "legal.html", map[string]any{
 		"Page":   page,
 		"SEO":    page["seo"],
+		"OGType": "website",
+	})
+}
+
+// ToolsIndex renders /tools — the catalogue of every PDF tool.
+func (a *App) ToolsIndex(w http.ResponseWriter, r *http.Request) {
+	a.render(w, r, "tools.html", map[string]any{
+		"Index":  a.ToolsText["index"],
+		"Tools":  a.ToolsText["tools"],
+		"SEO":    a.ToolsText["seo_index"],
+		"OGType": "website",
+	})
+}
+
+// ToolPage renders one tool — slug must match a key under
+// texts/tools.json -> tools[slug].
+func (a *App) ToolPage(w http.ResponseWriter, r *http.Request, slug string) {
+	tools, _ := a.ToolsText["tools"].(map[string]any)
+	tool, _ := tools[slug].(map[string]any)
+	if tool == nil {
+		http.NotFound(w, r)
+		return
+	}
+	a.render(w, r, "tool.html", map[string]any{
+		"Tool":   tool,
+		"Slug":   slug,
+		"SEO":    tool["seo"],
 		"OGType": "website",
 	})
 }
