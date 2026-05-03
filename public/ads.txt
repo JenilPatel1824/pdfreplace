@@ -1,4 +1,2 @@
 # ads.txt — required by Google AdSense to verify you own this domain.
-# Replace pub-0000000000000000 with your real publisher ID after AdSense
-# approves your site. Without this file Google may stop serving ads.
-google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+google.com, pub-8484309816003036, DIRECT, f08c47fec0942fa0
