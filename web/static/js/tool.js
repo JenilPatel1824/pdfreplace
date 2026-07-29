@@ -25,6 +25,9 @@
     "remove-empty-pages":{ multi: false, extras: [] },
     "rotate-pdf":        { multi: false, extras: ["angle", "pages"] },
     "compress-pdf":      { multi: false, extras: [] },
+    "protect-pdf":       { multi: false, extras: ["password"] },
+    "unlock-pdf":        { multi: false, extras: ["password"] },
+    "redact-pdf":        { multi: false, extras: ["text_to_redact"] },
   };
   const layout = layouts[slug];
   if (!layout) {
@@ -90,6 +93,15 @@
           <label class="card-input" id="modeAt-row" style="display:none;">Split before pages
             <input id="modeAt" type="text" placeholder="e.g. 4,9,15">
             <span class="hint">Each number starts a new chunk.</span>
+          </label>`;
+        case "password":
+          return `<label class="card-input">Password
+            <input id="password" type="password" placeholder="Enter password" autocomplete="new-password">
+          </label>`;
+        case "text_to_redact":
+          return `<label class="card-input">Text to Redact
+            <input id="textToRedact" type="text" placeholder="e.g. 1234-5678-9012" autocomplete="off">
+            <span class="hint">Case sensitive exact match.</span>
           </label>`;
         default:
           return "";
@@ -186,6 +198,16 @@
         if (mode === "every_n") fd.append("n", document.getElementById("modeN").value);
         if (mode === "at_pages") fd.append("at", document.getElementById("modeAt").value);
       }
+      if (slug === "protect-pdf" || slug === "unlock-pdf") {
+        const pw = document.getElementById("password").value;
+        if (!pw) throw new Error("Password is required.");
+        fd.append("password", pw);
+      }
+      if (slug === "redact-pdf") {
+        const t = document.getElementById("textToRedact").value;
+        if (!t) throw new Error("Text to redact is required.");
+        fd.append("textToRedact", t);
+      }
 
       const endpoint = endpoints[slug];
       const r = await fetch(endpoint, { method: "POST", body: fd });
@@ -207,6 +229,9 @@
     "remove-empty-pages": "/api/tools/remove-empty-pages",
     "rotate-pdf":         "/api/tools/rotate",
     "compress-pdf":       "/api/tools/compress",
+    "protect-pdf":        "/api/tools/protect",
+    "unlock-pdf":         "/api/tools/unlock",
+    "redact-pdf":         "/api/tools/redact",
   };
 
   function showResult(j) {

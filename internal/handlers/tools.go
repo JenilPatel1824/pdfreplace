@@ -365,6 +365,99 @@ func (a *App) DownloadTool(w http.ResponseWriter, r *http.Request) {
 	a.serveToolDownload(w, r, id, stored, friendly)
 }
 
+// --- Tool: Protect --------------------------------------------------------
+
+func (a *App) ProtectPDFHandler(w http.ResponseWriter, r *http.Request) {
+	r.Body = http.MaxBytesReader(w, r.Body, maxToolUploadBytes)
+	if err := r.ParseMultipartForm(maxToolUploadBytes); err != nil {
+		writeErr(w, http.StatusBadRequest, "file too large or invalid form")
+		return
+	}
+	id := uuid.NewString()
+	dir := a.toolDir(id)
+	in, err := saveUploadedPDF(r, "pdf", dir, "input.pdf")
+	if err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	password := r.FormValue("password")
+	if password == "" {
+		writeErr(w, http.StatusBadRequest, "password is required")
+		return
+	}
+	out := filepath.Join(dir, "output.pdf")
+	if err := pdfops.ProtectPDF(in, out, password); err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{
+		"id":       id,
+		"download": "/download-tool/" + id + "/protected.pdf",
+	})
+}
+
+// --- Tool: Unlock ---------------------------------------------------------
+
+func (a *App) UnlockPDFHandler(w http.ResponseWriter, r *http.Request) {
+	r.Body = http.MaxBytesReader(w, r.Body, maxToolUploadBytes)
+	if err := r.ParseMultipartForm(maxToolUploadBytes); err != nil {
+		writeErr(w, http.StatusBadRequest, "file too large or invalid form")
+		return
+	}
+	id := uuid.NewString()
+	dir := a.toolDir(id)
+	in, err := saveUploadedPDF(r, "pdf", dir, "input.pdf")
+	if err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	password := r.FormValue("password")
+	if password == "" {
+		writeErr(w, http.StatusBadRequest, "password is required")
+		return
+	}
+	out := filepath.Join(dir, "output.pdf")
+	if err := pdfops.UnlockPDF(in, out, password); err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{
+		"id":       id,
+		"download": "/download-tool/" + id + "/unlocked.pdf",
+	})
+}
+
+// --- Tool: Redact ---------------------------------------------------------
+
+func (a *App) RedactPDFHandler(w http.ResponseWriter, r *http.Request) {
+	r.Body = http.MaxBytesReader(w, r.Body, maxToolUploadBytes)
+	if err := r.ParseMultipartForm(maxToolUploadBytes); err != nil {
+		writeErr(w, http.StatusBadRequest, "file too large or invalid form")
+		return
+	}
+	id := uuid.NewString()
+	dir := a.toolDir(id)
+	in, err := saveUploadedPDF(r, "pdf", dir, "input.pdf")
+	if err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	textToRedact := r.FormValue("textToRedact")
+	if textToRedact == "" {
+		writeErr(w, http.StatusBadRequest, "text to redact is required")
+		return
+	}
+	out := filepath.Join(dir, "output.pdf")
+	if err := pdfops.RedactPDF(in, out, textToRedact); err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{
+		"id":       id,
+		"download": "/download-tool/" + id + "/redacted.pdf",
+	})
+}
+
 // --- helpers ---------------------------------------------------------------
 
 func zipFiles(files []string, zipPath string) error {

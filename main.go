@@ -12,7 +12,9 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
+	"pdfrep/internal/cleanup"
 	"pdfrep/internal/handlers"
 	"pdfrep/internal/seo"
 )
@@ -25,6 +27,11 @@ func main() {
 	mustDir(filepath.Join(*storage, "uploads"))
 	mustDir(filepath.Join(*storage, "output"))
 	mustDir(filepath.Join(*storage, "tools"))
+
+	// Start background cleanup job:
+	// Runs every 15 minutes, deletes processed files/folders older than 1 hour.
+	log.Println("Starting background cleanup job (maxAge: 1 hour)...")
+	cleanup.Start(*storage, 1*time.Hour, 15*time.Minute)
 
 	funcs := template.FuncMap{
 		"add":  func(a, b int) int { return a + b },
@@ -95,6 +102,9 @@ func main() {
 		"remove-empty-pages",
 		"rotate-pdf",
 		"compress-pdf",
+		"protect-pdf",
+		"unlock-pdf",
+		"redact-pdf",
 	} {
 		slug := slug
 		mux.HandleFunc("GET /"+slug, func(w http.ResponseWriter, r *http.Request) {
@@ -116,6 +126,9 @@ func main() {
 	mux.HandleFunc("POST /api/tools/remove-empty-pages", app.RemoveEmptyPagesHandler)
 	mux.HandleFunc("POST /api/tools/rotate", app.RotatePDFHandler)
 	mux.HandleFunc("POST /api/tools/compress", app.CompressPDFHandler)
+	mux.HandleFunc("POST /api/tools/protect", app.ProtectPDFHandler)
+	mux.HandleFunc("POST /api/tools/unlock", app.UnlockPDFHandler)
+	mux.HandleFunc("POST /api/tools/redact", app.RedactPDFHandler)
 	mux.HandleFunc("GET /download-tool/{id}/{filename}", app.DownloadTool)
 
 	// SEO

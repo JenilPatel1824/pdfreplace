@@ -245,6 +245,117 @@
         "description": "Compress PDF files online for free. Lossless optimisation — no quality loss, no signup, no watermark. Typical savings 5–30%.",
         "keywords": "compress pdf, reduce pdf file size, pdf compressor, optimise pdf, smaller pdf"
       }
+    },
+
+    "protect-pdf": {
+      "slug": "protect-pdf",
+      "category": "edit",
+      "icon": "lock",
+      "title": "Protect PDF",
+      "shortDesc": "Encrypt your PDF with a password to prevent unauthorized access.",
+      "h1": "Protect PDF Online — Add Password",
+      "lead": "Secure your sensitive documents by adding a password. Only people with the password will be able to open and read the PDF.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Protect PDF",
+        "downloadName": "protected.pdf",
+        "successTitle": "Your PDF is now protected"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your PDF", "p": "Drop the PDF you want to protect."},
+        {"n": 2, "h": "Set a Password", "p": "Enter a strong password. Don't forget it, or you won't be able to open the file!"},
+        {"n": 3, "h": "Click Protect", "p": "We encrypt your file server-side and immediately discard the password."},
+        {"n": 4, "h": "Download", "p": "Save your newly secured PDF document."}
+      ],
+      "useCases": [
+        "Secure financial records or bank statements before sharing.",
+        "Protect a confidential contract or business proposal.",
+        "Add a password to personal identification documents."
+      ],
+      "faq": [
+        {"q": "How secure is the encryption?", "a": "We use standard AES encryption supported by all modern PDF viewers."},
+        {"q": "Do you store my password?", "a": "No. The password is only kept in memory during encryption and never saved to disk."}
+      ],
+      "seo": {
+        "title": "Protect PDF — Add Password to PDF Online Free",
+        "description": "Secure your PDF with a password for free. Encrypt sensitive documents quickly and securely without installing any software.",
+        "keywords": "protect pdf, password protect pdf, encrypt pdf, secure pdf online"
+      }
+    },
+
+    "unlock-pdf": {
+      "slug": "unlock-pdf",
+      "category": "edit",
+      "icon": "unlock",
+      "title": "Unlock PDF",
+      "shortDesc": "Remove password protection from a PDF (you must know the password).",
+      "h1": "Unlock PDF Online — Remove Password",
+      "lead": "Remove the password security from a protected PDF so you don't have to enter it every time you open the file. Note: You must know the current password.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Unlock PDF",
+        "downloadName": "unlocked.pdf",
+        "successTitle": "Your PDF is unlocked"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload protected PDF", "p": "Drop the encrypted file."},
+        {"n": 2, "h": "Enter Password", "p": "Provide the current password needed to open the file."},
+        {"n": 3, "h": "Click Unlock", "p": "We verify the password and remove the encryption layer."},
+        {"n": 4, "h": "Download", "p": "Save your unlocked PDF that can now be opened without a password."}
+      ],
+      "useCases": [
+        "Remove the password from monthly bank statements for easier archiving.",
+        "Unlock a company document so it can be edited or merged with others.",
+        "Remove security from a file you created but no longer need protected."
+      ],
+      "faq": [
+        {"q": "Can you unlock a PDF without the password?", "a": "No, this tool requires the original password to decrypt the file. It is not a password cracker."},
+        {"q": "Is this safe for sensitive files?", "a": "Yes. Files and passwords are deleted from our servers shortly after processing."}
+      ],
+      "seo": {
+        "title": "Unlock PDF — Remove Password from PDF Online Free",
+        "description": "Remove password protection and encryption from your PDF documents online for free. Fast and secure.",
+        "keywords": "unlock pdf, remove pdf password, decrypt pdf, pdf password remover"
+      }
+    },
+
+    "redact-pdf": {
+      "slug": "redact-pdf",
+      "category": "edit",
+      "icon": "eye-off",
+      "title": "Redact Text",
+      "shortDesc": "Permanently black out sensitive text (like PAN or bank numbers) from a PDF.",
+      "h1": "Redact Text in PDF Online — Free",
+      "lead": "Hide sensitive information securely. This tool finds the text you specify and stamps a solid black box over it, completely obscuring the original text.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Redact Text",
+        "downloadName": "redacted.pdf",
+        "successTitle": "Sensitive text redacted"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your PDF", "p": "Drop the PDF containing sensitive information."},
+        {"n": 2, "h": "Enter Text to Redact", "p": "Type the exact text, like a phone number, SSN, or name you want to hide."},
+        {"n": 3, "h": "Click Redact", "p": "We locate the text and draw a permanent black rectangle over it."},
+        {"n": 4, "h": "Download", "p": "Save the file. The original text underneath is covered."}
+      ],
+      "useCases": [
+        "Black out an account number before sending a voided check.",
+        "Hide social security numbers or tax IDs in forms.",
+        "Remove a client's name from a document being used as a template."
+      ],
+      "faq": [
+        {"q": "Is the text truly gone?", "a": "The text underneath the black box is covered in the visual rendering. Note that for high-security environments, you may also want to use 'Remove Text' entirely, but redaction provides a solid visual blackout."},
+        {"q": "Can I redact multiple phrases?", "a": "Currently, you can redact one specific exact phrase per pass. You can run the downloaded file through the tool again for additional phrases."}
+      ],
+      "seo": {
+        "title": "Redact Text in PDF — Blackout Sensitive Info Free",
+        "description": "Securely black out and redact sensitive text from PDF documents. Free online PDF redaction tool.",
+        "keywords": "redact pdf, blackout text pdf, hide text in pdf, pdf redaction tool"
+      }
     }
   }
 }

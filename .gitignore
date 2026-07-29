@@ -6,3 +6,4 @@
 *.log
 .env
 .DS_Store
+PROJECT_OVERVIEW.md

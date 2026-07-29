@@ -334,3 +334,24 @@ func parsePageRanges(s string, total int) ([]int, error) {
 	}
 	return out, nil
 }
+
+// ProtectPDF encrypts the given PDF with a user password.
+func ProtectPDF(inFile, outFile, password string) error {
+	conf := model.NewDefaultConfiguration()
+	conf.UserPW = password
+	conf.OwnerPW = password
+	if err := api.EncryptFile(inFile, outFile, conf); err != nil {
+		return fmt.Errorf("protect: %w", err)
+	}
+	return nil
+}
+
+// UnlockPDF decrypts the given PDF using the provided password.
+func UnlockPDF(inFile, outFile, password string) error {
+	conf := model.NewDefaultConfiguration()
+	conf.UserPW = password
+	if err := api.DecryptFile(inFile, outFile, conf); err != nil {
+		return fmt.Errorf("unlock: %w", err)
+	}
+	return nil
+}
