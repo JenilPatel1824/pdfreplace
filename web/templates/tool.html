@@ -115,6 +115,8 @@
           <li><a href="/remove-empty-pages">Remove blank pages</a></li>
           <li><a href="/rotate-pdf">Rotate PDF</a></li>
           <li><a href="/compress-pdf">Compress PDF</a></li>
+          <li><a href="/pdf-to-image">PDF to Image</a></li>
+          <li><a href="/image-to-pdf">Image to PDF</a></li>
         </ul>
       </div>
       {{template "ad_slot" .}}
@@ -124,8 +126,8 @@
 </main>
 
 {{template "footer" .}}
-<script src="/static/js/site.js?v=3"></script>
-<script src="/static/js/tool.js?v=3"></script>
+<script src="/static/js/site.js?v=6"></script>
+<script src="/static/js/tool.js?v=6"></script>
 <script id="tool-config" type="application/json">{{.Tool | json}}</script>
 </body>
 </html>{{end}}

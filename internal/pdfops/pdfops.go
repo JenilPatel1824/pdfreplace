@@ -1,15 +1,3 @@
-// Package pdfops wraps the PDF pipeline: count pages, render previews,
-// find text bounding boxes, and replace text by overlaying.
-//
-// We deliberately shell out to poppler (pdftotext, pdftoppm) for extraction
-// and rendering because pure-Go libs do not give reliable bbox info for
-// arbitrary PDFs. Replacement uses a "redact + overlay" strategy: cover
-// the old text region with a rectangle in the page background color, then
-// stamp the new text using pdfcpu. This preserves layout for short
-// substitutions; longer replacements may overflow.
-//
-// For production-grade font/color preservation, swap Replace with a
-// MuPDF (mutool) or PyMuPDF microservice — see docs/REPLACEMENT.md.
 package pdfops
 
 import (
@@ -21,9 +9,7 @@ import (
 	"strings"
 )
 
-// Match is a single occurrence of the searched text on a page.
-// Coordinates are in PDF points (1/72 inch), origin top-left,
-// matching what pdftotext -bbox-layout emits.
+
 type Match struct {
 	Page  int     `json:"page"`
 	X0    float64 `json:"x0"`
@@ -35,7 +21,7 @@ type Match struct {
 	PageH float64 `json:"pageH"`
 }
 
-// PageCount uses pdftotext metadata or pdfinfo to count pages.
+
 func PageCount(pdf string) (int, error) {
 	out, err := exec.Command("pdfinfo", pdf).Output()
 	if err != nil {
@@ -54,12 +40,12 @@ func PageCount(pdf string) (int, error) {
 	return 0, fmt.Errorf("page count not found")
 }
 
-// RenderPage renders one page to a PNG byte slice at 110 DPI — enough
-// for a clear on-screen preview without bloating bandwidth.
-//
-// poppler's pdftoppm writes a numbered file per page rather than to
-// stdout, so we route through a tempfile and read it back.
 func RenderPage(pdf, page string) ([]byte, error) {
+	return RenderPageDPI(pdf, page, 110)
+}
+
+
+func RenderPageDPI(pdf, page string, dpi int) ([]byte, error) {
 	n, err := strconv.Atoi(page)
 	if err != nil || n < 1 {
 		return nil, fmt.Errorf("bad page")
@@ -74,7 +60,7 @@ func RenderPage(pdf, page string) ([]byte, error) {
 	defer os.Remove(prefix + ".png")
 
 	cmd := exec.Command("pdftoppm",
-		"-png", "-r", "110",
+		"-png", "-r", strconv.Itoa(dpi),
 		"-f", strconv.Itoa(n), "-l", strconv.Itoa(n),
 		"-singlefile", pdf, prefix)
 	var stderr bytes.Buffer
@@ -85,9 +71,7 @@ func RenderPage(pdf, page string) ([]byte, error) {
 	return os.ReadFile(prefix + ".png")
 }
 
-// runPdftotextPage extracts text from one page (1-based) as plain text.
-// Used by the blank-page detector and any tool that needs a quick
-// content snapshot without bbox info.
+
 func runPdftotextPage(pdf string, page int) (string, error) {
 	if page < 1 {
 		return "", fmt.Errorf("bad page %d", page)

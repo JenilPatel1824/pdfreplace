@@ -393,6 +393,78 @@
         "description": "Reorder PDF pages with drag and drop, or extract specific pages. Free online PDF organizer tool.",
         "keywords": "organize pdf, reorder pdf pages, extract pages pdf, drag and drop pdf pages"
       }
+    },
+    
+    "pdf-to-image": {
+      "slug": "pdf-to-image",
+      "category": "edit",
+      "icon": "image",
+      "title": "PDF to Image",
+      "shortDesc": "Convert each page of a PDF into a separate high-quality image.",
+      "h1": "PDF to Image — Convert PDF to JPG/PNG Free",
+      "lead": "Convert your PDF pages into images instantly. You will receive a ZIP file containing every page as a separate, high-quality image file.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Convert to Images",
+        "downloadName": "images.zip",
+        "successTitle": "Your images are ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your PDF", "p": "Drop your PDF document into the upload area."},
+        {"n": 2, "h": "Convert", "p": "Click 'Convert to Images' to start the process."},
+        {"n": 3, "h": "Download ZIP", "p": "Download the ZIP file containing an image for every page in your PDF."}
+      ],
+      "useCases": [
+        "Share a single page of a PDF on social media.",
+        "Include a page from a report as an image in a presentation.",
+        "Turn a PDF poster into an image for a website."
+      ],
+      "faq": [
+        {"q": "What format are the images?", "a": "We currently output high-quality PNG images at 300 DPI for excellent clarity."},
+        {"q": "Is every page converted?", "a": "Yes, every page in the uploaded PDF is converted into a separate image."}
+      ],
+      "seo": {
+        "title": "PDF to Image — Convert PDF to PNG/JPG Free Online",
+        "description": "Convert PDF to image online for free. Turn each page of your PDF into high-quality JPG or PNG images instantly.",
+        "keywords": "pdf to image, pdf to jpg, pdf to png, convert pdf to image online"
+      }
+    },
+
+    "image-to-pdf": {
+      "slug": "image-to-pdf",
+      "category": "edit",
+      "icon": "file-text",
+      "title": "Image to PDF",
+      "shortDesc": "Convert and combine JPG/PNG images into a single PDF document.",
+      "h1": "Image to PDF — Convert JPG/PNG to PDF Free",
+      "lead": "Upload one or multiple images and easily combine them into a single PDF document. Ideal for scanning receipts, IDs, or photos into a document.",
+      "ui": {
+        "uploadCta": "Drop images here, or click to choose",
+        "uploadHint": "Up to 20 images (JPG/PNG)",
+        "actionBtn": "Convert to PDF",
+        "downloadName": "converted.pdf",
+        "successTitle": "Your PDF is ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your images", "p": "Select the JPG or PNG images you wish to convert."},
+        {"n": 2, "h": "Convert", "p": "Click 'Convert to PDF' and we will merge them into a single document."},
+        {"n": 3, "h": "Download PDF", "p": "Save your newly created PDF file containing all your images."}
+      ],
+      "useCases": [
+        "Combine scanned receipts or invoices into a single PDF for accounting.",
+        "Convert photos of an assignment into a PDF for submission.",
+        "Merge multiple ID or document photos into one file."
+      ],
+      "faq": [
+        {"q": "What image formats are supported?", "a": "We support standard image formats including JPG, JPEG, and PNG."},
+        {"q": "Can I upload multiple images?", "a": "Yes, you can upload multiple images at once and they will be combined into a single PDF."}
+      ],
+      "seo": {
+        "title": "Image to PDF — Convert JPG & PNG to PDF Free Online",
+        "description": "Convert JPG, JPEG, and PNG images to PDF online for free. Combine multiple images into a single PDF document easily.",
+        "keywords": "image to pdf, jpg to pdf, png to pdf, convert image to pdf, combine images into pdf"
+      }
     }
   }
 }

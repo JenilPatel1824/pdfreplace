@@ -688,6 +688,69 @@ section h2{
 }
 .dz-list .dz-rm:hover{background:var(--bg-muted);color:var(--danger);}
 
+/* Grid layout for image previews */
+.dz-list.is-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));
+  gap:16px;
+  flex-direction:row; /* override default column */
+}
+.dz-list.is-grid li{
+  aspect-ratio:1;
+  padding:0;
+  position:relative;
+  flex-direction:column;
+  align-items:stretch;
+  overflow:hidden;
+  cursor:grab;
+}
+.dz-list.is-grid li.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+.dz-list.is-grid li img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  pointer-events:none; /* so drag events fire on the li */
+}
+.dz-list.is-grid .file-name,
+.dz-list.is-grid .file-size,
+.dz-list.is-grid .file-ico{
+  display:none; /* hide text/icons for image thumbnails */
+}
+.dz-list.is-grid .dz-rm{
+  position:absolute;
+  top:6px;
+  right:6px;
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  border-radius:50%;
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  padding:0;
+  backdrop-filter:blur(4px);
+}
+.dz-list.is-grid .dz-rm:hover{
+  background:var(--danger);
+  color:#fff;
+}
+.dz-grid-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 12px 0 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 .card-input{
   display:block;margin:14px 0;color:var(--text-soft);
   font-weight:600;font-size:.92rem;

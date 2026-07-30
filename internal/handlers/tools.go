@@ -542,3 +542,104 @@ func (a *App) OrganizePDFHandler(w http.ResponseWriter, r *http.Request) {
 		"download": "/download-tool/" + id + "/organized.pdf",
 	})
 }
+
+// --- Tool: PDF to Image ----------------------------------------------------
+
+func (a *App) PDFToImageHandler(w http.ResponseWriter, r *http.Request) {
+	r.Body = http.MaxBytesReader(w, r.Body, maxToolUploadBytes)
+	if err := r.ParseMultipartForm(maxToolUploadBytes); err != nil {
+		writeErr(w, http.StatusBadRequest, "file too large or invalid form")
+		return
+	}
+	id := uuid.NewString()
+	dir := a.toolDir(id)
+	in, err := saveUploadedPDF(r, "pdf", dir, "input.pdf")
+	if err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	partsDir := filepath.Join(dir, "parts")
+	images, err := pdfops.PDFToImage(in, partsDir)
+	if err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	zipPath := filepath.Join(dir, "parts.zip")
+	if err := zipFiles(images, zipPath); err != nil {
+		writeErr(w, http.StatusInternalServerError, "zip: "+err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{
+		"id":       id,
+		"parts":    len(images),
+		"download": "/download-tool/" + id + "/images.zip",
+	})
+}
+
+// --- Tool: Image to PDF ----------------------------------------------------
+
+func (a *App) ImageToPDFHandler(w http.ResponseWriter, r *http.Request) {
+	r.Body = http.MaxBytesReader(w, r.Body, maxMergeBytes)
+	if err := r.ParseMultipartForm(maxMergeBytes); err != nil {
+		writeErr(w, http.StatusBadRequest, "files too large or invalid form")
+		return
+	}
+	files := r.MultipartForm.File["pdf"]
+	if len(files) < 1 {
+		writeErr(w, http.StatusBadRequest, "upload at least 1 image")
+		return
+	}
+	if len(files) > maxMergeFiles {
+		writeErr(w, http.StatusBadRequest, "too many files (max "+strconv.Itoa(maxMergeFiles)+")")
+		return
+	}
+
+	id := uuid.NewString()
+	dir := a.toolDir(id)
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		writeErr(w, http.StatusInternalServerError, "storage error")
+		return
+	}
+
+	var paths []string
+	for i, h := range files {
+		ext := strings.ToLower(filepath.Ext(h.Filename))
+		if ext != ".png" && ext != ".jpg" && ext != ".jpeg" {
+			writeErr(w, http.StatusBadRequest, h.Filename+" is not a supported image format")
+			return
+		}
+		f, err := h.Open()
+		if err != nil {
+			writeErr(w, http.StatusBadRequest, "could not open "+h.Filename)
+			return
+		}
+		dst := filepath.Join(dir, "in_"+strconv.Itoa(i)+ext)
+		out, err := os.Create(dst)
+		if err != nil {
+			f.Close()
+			writeErr(w, http.StatusInternalServerError, "storage error")
+			return
+		}
+		if _, err := io.Copy(out, f); err != nil {
+			f.Close()
+			out.Close()
+			writeErr(w, http.StatusInternalServerError, "write error")
+			return
+		}
+		f.Close()
+		out.Close()
+		paths = append(paths, dst)
+	}
+
+	outFile := filepath.Join(dir, "output.pdf")
+	if err := pdfops.ImageToPDF(paths, outFile); err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{
+		"id":       id,
+		"download": "/download-tool/" + id + "/converted.pdf",
+	})
+}

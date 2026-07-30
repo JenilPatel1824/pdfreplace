@@ -28,6 +28,8 @@
     "protect-pdf":       { multi: false, extras: ["password"] },
     "unlock-pdf":        { multi: false, extras: ["password"] },
     "redact-pdf":        { multi: false, extras: ["text_to_redact"] },
+    "pdf-to-image":      { multi: false, extras: [] },
+    "image-to-pdf":      { multi: true,  extras: [], accept: "image/png, image/jpeg" },
   };
   const layout = layouts[slug];
   if (!layout && slug !== "organize-pdf") {
@@ -39,17 +41,20 @@
     return initOrganize(app, ui, cfg);
   }
 
+  const defaultCta = slug === "image-to-pdf" ? "Drop images here, or click to choose" : "Choose PDF or drag here";
+  const defaultHint = slug === "image-to-pdf" ? "Images (JPG/PNG) only" : "PDFs only";
+
   // ----- render -----
   app.innerHTML = `
     <h2>1. Upload</h2>
     <label class="dropzone" id="dz">
-      <input id="file" type="file" accept="application/pdf" hidden${layout.multi ? " multiple" : ""}>
+      <input id="file" type="file" accept="${layout.accept || 'application/pdf'}" hidden${layout.multi ? " multiple" : ""}>
       <div class="dz-empty" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
         <span class="dz-ico">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         </span>
-        <span class="dz-cta">${esc(ui.uploadCta || "Choose PDF or drag here")}</span>
-        <span class="dz-hint">${esc(ui.uploadHint || "PDFs only")}</span>
+        <span class="dz-cta">${esc(ui.uploadCta || defaultCta)}</span>
+        <span class="dz-hint">${esc(ui.uploadHint || defaultHint)}</span>
       </div>
       <ul class="dz-list" id="dzList"></ul>
     </label>
@@ -136,27 +141,111 @@
     paintList();
   }
 
+  const previewUrls = new Map();
+  let hintEl = null;
+
   function paintList() {
     if (files.length === 0) {
       dz.classList.remove("has-file");
       dzList.innerHTML = "";
+      if (hintEl) {
+        hintEl.remove();
+        hintEl = null;
+      }
       return;
     }
     dz.classList.add("has-file");
-    dzList.innerHTML = files.map((f, i) => `
-      <li>
-        <span class="file-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-        </span>
-        <span class="file-name">${esc(f.name)}</span>
-        <span class="file-size">${fmtBytes(f.size)}</span>
-        ${layout.multi ? `<button type="button" class="dz-rm" data-i="${i}" aria-label="Remove">&times;</button>` : ""}
-      </li>`).join("");
+    
+    if (slug === "image-to-pdf") {
+      dzList.classList.add("is-grid");
+      if (!hintEl && files.length > 1) {
+        hintEl = document.createElement("p");
+        hintEl.className = "dz-grid-hint";
+        hintEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg> Drag to reorder`;
+        dz.parentNode.insertBefore(hintEl, dz.nextSibling);
+      } else if (hintEl && files.length <= 1) {
+        hintEl.remove();
+        hintEl = null;
+      }
+      
+      dzList.innerHTML = files.map((f, i) => {
+        let url = previewUrls.get(f);
+        if (!url) {
+          url = URL.createObjectURL(f);
+          previewUrls.set(f, url);
+        }
+        return `<li draggable="true" data-i="${i}">
+          <img src="${url}" alt="${esc(f.name)}">
+          <button type="button" class="dz-rm" data-i="${i}" aria-label="Remove">&times;</button>
+        </li>`;
+      }).join("");
+      
+      setupDragDrop();
+    } else {
+      dzList.innerHTML = files.map((f, i) => `
+        <li>
+          <span class="file-ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </span>
+          <span class="file-name">${esc(f.name)}</span>
+          <span class="file-size">${fmtBytes(f.size)}</span>
+          ${layout.multi ? `<button type="button" class="dz-rm" data-i="${i}" aria-label="Remove">&times;</button>` : ""}
+        </li>`).join("");
+    }
   }
+
+  let dragSrcEl = null;
+  function setupDragDrop() {
+    const items = dzList.querySelectorAll("li[draggable='true']");
+    items.forEach(item => {
+      item.addEventListener("dragstart", function(e) {
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", this.dataset.i);
+        this.classList.add("dragging");
+      });
+      item.addEventListener("dragover", function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        return false;
+      });
+      item.addEventListener("dragenter", function(e) {
+        this.classList.add("drag-over");
+      });
+      item.addEventListener("dragleave", function(e) {
+        this.classList.remove("drag-over");
+      });
+      item.addEventListener("drop", function(e) {
+        e.stopPropagation();
+        this.classList.remove("drag-over");
+        if (dragSrcEl !== this) {
+          const srcI = Number(dragSrcEl.dataset.i);
+          const dstI = Number(this.dataset.i);
+          const f = files.splice(srcI, 1)[0];
+          files.splice(dstI, 0, f);
+          paintList();
+        }
+        return false;
+      });
+      item.addEventListener("dragend", function(e) {
+        this.classList.remove("dragging");
+        items.forEach(i => i.classList.remove("drag-over"));
+      });
+    });
+  }
+
   dzList.addEventListener("click", e => {
     const b = e.target.closest(".dz-rm");
     if (!b) return;
     e.preventDefault();
+    const f = files[Number(b.dataset.i)];
+    if (f) {
+      const url = previewUrls.get(f);
+      if (url) {
+        URL.revokeObjectURL(url);
+        previewUrls.delete(f);
+      }
+    }
     files.splice(Number(b.dataset.i), 1);
     paintList();
   });
@@ -236,6 +325,8 @@
     "protect-pdf":        "/api/tools/protect",
     "unlock-pdf":         "/api/tools/unlock",
     "redact-pdf":         "/api/tools/redact",
+    "pdf-to-image":       "/api/tools/pdf-to-image",
+    "image-to-pdf":       "/api/tools/image-to-pdf",
   };
 
   function showResult(j) {

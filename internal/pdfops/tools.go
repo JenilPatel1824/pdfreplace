@@ -18,10 +18,12 @@ import (
 	"fmt"
 	"image/png"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
 	"github.com/pdfcpu/pdfcpu/pkg/api"
+	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
 	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
 )
 
@@ -356,12 +358,59 @@ func UnlockPDF(inFile, outFile, password string) error {
 	return nil
 }
 
-// OrganizePDF reorders and/or extracts pages from inFile into outFile based on selectedPages.
-// selectedPages is a list of page numbers as strings, e.g., []string{"3", "1", "2"}.
 func OrganizePDF(inFile, outFile string, selectedPages []string) error {
 	conf := model.NewDefaultConfiguration()
 	if err := api.CollectFile(inFile, outFile, selectedPages, conf); err != nil {
 		return fmt.Errorf("organize: %w", err)
+	}
+	return nil
+}
+
+// PDFToImage converts each page of a PDF into a PNG image at 300 DPI.
+// Returns a list of paths to the generated images.
+func PDFToImage(inFile, outDir string) ([]string, error) {
+	total, err := PageCount(inFile)
+	if err != nil {
+		return nil, fmt.Errorf("page count: %w", err)
+	}
+	if total == 0 {
+		return nil, errors.New("PDF has no pages")
+	}
+
+	if err := os.MkdirAll(outDir, 0o755); err != nil {
+		return nil, err
+	}
+
+	var images []string
+	for p := 1; p <= total; p++ {
+		// Use 300 DPI for high-quality export
+		imgBytes, err := RenderPageDPI(inFile, strconv.Itoa(p), 300)
+		if err != nil {
+			return nil, fmt.Errorf("render page %d: %w", p, err)
+		}
+		
+		imgName := fmt.Sprintf("page-%d.png", p)
+		imgPath := filepath.Join(outDir, imgName)
+		if err := os.WriteFile(imgPath, imgBytes, 0o644); err != nil {
+			return nil, fmt.Errorf("write image %d: %w", p, err)
+		}
+		images = append(images, imgPath)
+	}
+
+	return images, nil
+}
+
+// ImageToPDF converts a list of image files into a single PDF.
+func ImageToPDF(inFiles []string, outFile string) error {
+	if len(inFiles) == 0 {
+		return errors.New("at least one image is required")
+	}
+
+	imp := pdfcpu.DefaultImportConfig()
+	conf := model.NewDefaultConfiguration()
+	
+	if err := api.ImportImagesFile(inFiles, outFile, imp, conf); err != nil {
+		return fmt.Errorf("image to pdf: %w", err)
 	}
 	return nil
 }

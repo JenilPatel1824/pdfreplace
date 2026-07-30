@@ -109,6 +109,8 @@ func main() {
 		"unlock-pdf",
 		"redact-pdf",
 		"organize-pdf",
+		"pdf-to-image",
+		"image-to-pdf",
 	} {
 		slug := slug
 		mux.HandleFunc("GET /"+slug, func(w http.ResponseWriter, r *http.Request) {
@@ -134,6 +136,8 @@ func main() {
 	mux.HandleFunc("POST /api/tools/unlock", app.UnlockPDFHandler)
 	mux.HandleFunc("POST /api/tools/redact", app.RedactPDFHandler)
 	mux.HandleFunc("POST /api/tools/organize", app.OrganizePDFHandler)
+	mux.HandleFunc("POST /api/tools/pdf-to-image", app.PDFToImageHandler)
+	mux.HandleFunc("POST /api/tools/image-to-pdf", app.ImageToPDFHandler)
 	mux.HandleFunc("GET /download-tool/{id}/{filename}", app.DownloadTool)
 
 	// SEO
