@@ -489,3 +489,56 @@ func addFileToZip(zw *zip.Writer, path string) error {
 	_, err = io.Copy(w, in)
 	return err
 }
+
+// --- Tool: Organize -------------------------------------------------------
+
+func (a *App) OrganizePDFHandler(w http.ResponseWriter, r *http.Request) {
+	uploadID := strings.TrimSpace(r.FormValue("uploadId"))
+	if !safeID(uploadID) {
+		writeErr(w, http.StatusBadRequest, "invalid upload id")
+		return
+	}
+
+	in := filepath.Join(a.StorageDir, "uploads", uploadID, "input.pdf")
+	if _, err := os.Stat(in); err != nil {
+		writeErr(w, http.StatusBadRequest, "uploaded file not found")
+		return
+	}
+
+	pagesStr := strings.TrimSpace(r.FormValue("pages"))
+	if pagesStr == "" {
+		writeErr(w, http.StatusBadRequest, "pages are required")
+		return
+	}
+	
+	var selectedPages []string
+	for _, p := range strings.Split(pagesStr, ",") {
+		p = strings.TrimSpace(p)
+		if p != "" {
+			selectedPages = append(selectedPages, p)
+		}
+	}
+	
+	if len(selectedPages) == 0 {
+		writeErr(w, http.StatusBadRequest, "no pages selected")
+		return
+	}
+
+	// Create a tool dir for the output
+	id := uuid.NewString()
+	dir := a.toolDir(id)
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		writeErr(w, http.StatusInternalServerError, "storage error")
+		return
+	}
+
+	out := filepath.Join(dir, "output.pdf")
+	if err := pdfops.OrganizePDF(in, out, selectedPages); err != nil {
+		writeErr(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{
+		"id":       id,
+		"download": "/download-tool/" + id + "/organized.pdf",
+	})
+}

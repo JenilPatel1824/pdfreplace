@@ -749,3 +749,77 @@ section h2{
   .hero{padding:60px 22px 64px;border-radius:var(--radius-lg);}
   .stepper li{flex:1 1 calc(50% - 4px);}
 }
+
+/* ---------------- Organize PDF Grid ---------------- */
+.pages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+.page-thumb {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  aspect-ratio: 1 / 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-thumb:active {
+  cursor: grabbing;
+}
+.page-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  pointer-events: none;
+}
+.page-thumb .rm-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--danger, #ef4444);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.page-thumb:hover .rm-btn {
+  opacity: 1;
+}
+.page-thumb .rm-btn:hover {
+  transform: scale(1.1);
+}
+.page-thumb .page-num {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  pointer-events: none;
+}
+.page-thumb.sortable-ghost {
+  opacity: 0.4;
+  border-color: var(--primary);
+  background: var(--bg-hover);
+}

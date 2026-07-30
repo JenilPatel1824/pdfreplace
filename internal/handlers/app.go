@@ -22,15 +22,12 @@ type App struct {
 	SEO        map[string]any
 	UseCases   map[string]any
 	LegalPages map[string]any
-	ToolsText  map[string]any // texts/tools.json — tool landing + per-tool copy
+	ToolsText  map[string]any
 	Theme      map[string]any
-	ThemeCSS   template.CSS   // pre-rendered :root { --x: ... } block
+	ThemeCSS   template.HTML
 }
 
-// BuildThemeCSS turns the tokens map from colors/theme.json into a
-// CSS string, sorted for deterministic output. Returned as template.CSS
-// so html/template will not escape the leading "--" of each variable.
-func BuildThemeCSS(theme map[string]any) template.CSS {
+func BuildThemeCSS(theme map[string]any) template.HTML {
 	tokens, ok := theme["tokens"].(map[string]any)
 	if !ok {
 		return ""
@@ -41,13 +38,13 @@ func BuildThemeCSS(theme map[string]any) template.CSS {
 	}
 	sort.Strings(keys)
 	var b []byte
-	b = append(b, ":root{"...)
+	b = append(b, "<style>\n:root{"...)
 	for _, k := range keys {
 		v, _ := tokens[k].(string)
 		b = append(b, fmt.Sprintf("%s:%s;", k, v)...)
 	}
-	b = append(b, '}')
-	return template.CSS(b)
+	b = append(b, "}\n</style>"...)
+	return template.HTML(b)
 }
 
 func LoadJSON(path string) map[string]any {

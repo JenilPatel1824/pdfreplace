@@ -42,6 +42,9 @@ func main() {
 			}
 			return template.JS(b), nil
 		},
+		"safeHTML": func(s string) template.HTML {
+			return template.HTML(s)
+		},
 	}
 	tpl := template.Must(template.New("").Funcs(funcs).ParseGlob("web/templates/*.html"))
 
@@ -105,6 +108,7 @@ func main() {
 		"protect-pdf",
 		"unlock-pdf",
 		"redact-pdf",
+		"organize-pdf",
 	} {
 		slug := slug
 		mux.HandleFunc("GET /"+slug, func(w http.ResponseWriter, r *http.Request) {
@@ -129,6 +133,7 @@ func main() {
 	mux.HandleFunc("POST /api/tools/protect", app.ProtectPDFHandler)
 	mux.HandleFunc("POST /api/tools/unlock", app.UnlockPDFHandler)
 	mux.HandleFunc("POST /api/tools/redact", app.RedactPDFHandler)
+	mux.HandleFunc("POST /api/tools/organize", app.OrganizePDFHandler)
 	mux.HandleFunc("GET /download-tool/{id}/{filename}", app.DownloadTool)
 
 	// SEO
@@ -211,7 +216,7 @@ func withSecurityHeaders(h http.Handler) http.Handler {
 		w.Header().Set("Content-Security-Policy",
 			"default-src 'self'; "+
 				"img-src 'self' data: https:; "+
-				"script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://www.googletagmanager.com; "+
+				"script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://cdnjs.cloudflare.com; "+
 				"frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; "+
 				"style-src 'self' 'unsafe-inline'; "+
 				"connect-src 'self' https://pagead2.googlesyndication.com")

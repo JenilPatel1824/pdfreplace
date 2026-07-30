@@ -355,3 +355,13 @@ func UnlockPDF(inFile, outFile, password string) error {
 	}
 	return nil
 }
+
+// OrganizePDF reorders and/or extracts pages from inFile into outFile based on selectedPages.
+// selectedPages is a list of page numbers as strings, e.g., []string{"3", "1", "2"}.
+func OrganizePDF(inFile, outFile string, selectedPages []string) error {
+	conf := model.NewDefaultConfiguration()
+	if err := api.CollectFile(inFile, outFile, selectedPages, conf); err != nil {
+		return fmt.Errorf("organize: %w", err)
+	}
+	return nil
+}

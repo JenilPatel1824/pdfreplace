@@ -7,3 +7,7 @@
 .env
 .DS_Store
 PROJECT_OVERVIEW.md
+/tmp/
+output.pdf
+input.pdf
+tmp/main

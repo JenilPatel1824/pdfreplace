@@ -30,9 +30,13 @@
     "redact-pdf":        { multi: false, extras: ["text_to_redact"] },
   };
   const layout = layouts[slug];
-  if (!layout) {
+  if (!layout && slug !== "organize-pdf") {
     app.innerHTML = `<p class="status error">Tool not configured.</p>`;
     return;
+  }
+  
+  if (slug === "organize-pdf") {
+    return initOrganize(app, ui, cfg);
   }
 
   // ----- render -----
@@ -280,5 +284,148 @@
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  // ----- Organize PDF -----
+  function initOrganize(app, ui, cfg) {
+    let uploadId = null;
+    let totalPages = 0;
+
+    app.innerHTML = `
+      <div id="org-upload">
+        <h2>1. Upload PDF</h2>
+        <label class="dropzone" id="dz">
+          <input id="file" type="file" accept="application/pdf" hidden>
+          <div class="dz-empty" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+            <span class="dz-ico">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </span>
+            <span class="dz-cta">${esc(ui.uploadCta || "Choose PDF")}</span>
+            <span class="dz-hint">${esc(ui.uploadHint || "Up to 50MB")}</span>
+          </div>
+        </label>
+        <p id="uploadStatus" class="status" aria-live="polite"></p>
+      </div>
+      
+      <div id="org-edit" style="display:none;">
+        <h2>2. Organize Pages</h2>
+        <p style="margin-top:-8px;color:var(--text-light);font-size:0.9rem;">Drag to reorder. Click &times; to remove.</p>
+        <div id="pagesGrid" class="pages-grid"></div>
+        
+        <h2>3. Apply Changes</h2>
+        <button id="runBtn" class="btn primary big">${esc(ui.actionBtn || "Apply")}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <p id="runStatus" class="status" aria-live="polite"></p>
+        <div id="result" class="result-card hidden"></div>
+      </div>
+    `;
+
+    const dz = document.getElementById("dz");
+    const fileInput = document.getElementById("file");
+    
+    ["dragenter","dragover"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add("drag"); }));
+    ["dragleave","drop"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove("drag"); }));
+    dz.addEventListener("drop", e => handleUpload(e.dataTransfer.files));
+    fileInput.addEventListener("change", () => handleUpload(fileInput.files));
+
+    const pagesGrid = document.getElementById("pagesGrid");
+    pagesGrid.addEventListener("click", e => {
+      if (e.target.closest(".rm-btn")) {
+        e.target.closest(".page-thumb").remove();
+        if (pagesGrid.querySelectorAll(".page-thumb").length === 0) {
+          document.getElementById("org-edit").style.display = "none";
+          document.getElementById("org-upload").style.display = "block";
+          uploadId = null;
+          totalPages = 0;
+          if (fileInput) fileInput.value = "";
+          setStatus("uploadStatus", "", "");
+          setStatus("runStatus", "", "");
+          const resultEl = document.getElementById("result");
+          if (resultEl) resultEl.classList.add("hidden");
+        }
+      }
+    });
+
+    async function handleUpload(files) {
+      if (!files || files.length === 0) return;
+      const file = files[0];
+      
+      setStatus("uploadStatus", `<span class="spinner"></span> Uploading...`, "", true);
+      const fd = new FormData();
+      fd.append("pdf", file);
+
+      try {
+        const r = await fetch("/api/upload", { method: "POST", body: fd });
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.error || "upload failed");
+        uploadId = j.id;
+        totalPages = j.pages;
+        
+        document.getElementById("org-upload").style.display = "none";
+        document.getElementById("org-edit").style.display = "block";
+        renderGrid();
+      } catch (err) {
+        setStatus("uploadStatus", err.message, "error");
+      }
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById("pagesGrid");
+      let html = "";
+      for (let i = 1; i <= totalPages; i++) {
+        html += `
+          <div class="page-thumb" data-page="${i}">
+            <img src="/api/page-image/${uploadId}/${i}" alt="Page ${i}" loading="lazy">
+            <button class="rm-btn" title="Remove page" aria-label="Remove page ${i}">&times;</button>
+            <span class="page-num">${i}</span>
+          </div>
+        `;
+      }
+      grid.innerHTML = html;
+
+
+
+      // Load SortableJS via CDN
+      if (!window.Sortable) {
+        const script = document.createElement("script");
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js";
+        script.onload = () => {
+          new Sortable(grid, { animation: 150, ghostClass: "sortable-ghost" });
+        };
+        document.head.appendChild(script);
+      } else {
+        new Sortable(grid, { animation: 150, ghostClass: "sortable-ghost" });
+      }
+    }
+
+    document.getElementById("runBtn").addEventListener("click", async () => {
+      const thumbs = document.querySelectorAll("#pagesGrid .page-thumb");
+      if (thumbs.length === 0) {
+        return setStatus("runStatus", "No pages left. Please leave at least one page.", "error");
+      }
+      const selectedPages = Array.from(thumbs).map(t => t.dataset.page).join(",");
+      
+      setStatus("runStatus", `<span class="spinner"></span>Processing...`, "", true);
+      const btn = document.getElementById("runBtn");
+      btn.disabled = true;
+
+      try {
+        const fd = new FormData();
+        fd.append("uploadId", uploadId);
+        fd.append("pages", selectedPages);
+        
+        const r = await fetch("/api/tools/organize", { method: "POST", body: fd });
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.error || "request failed");
+        
+        showResult(j);
+        setStatus("runStatus", "Done.", "ok");
+      } catch (err) {
+        setStatus("runStatus", err.message, "error");
+      } finally {
+        btn.disabled = false;
+      }
+    });
   }
 })();

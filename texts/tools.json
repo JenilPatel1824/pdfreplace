@@ -356,6 +356,44 @@
         "description": "Securely black out and redact sensitive text from PDF documents. Free online PDF redaction tool.",
         "keywords": "redact pdf, blackout text pdf, hide text in pdf, pdf redaction tool"
       }
+    },
+    
+    "organize-pdf": {
+      "slug": "organize-pdf",
+      "category": "organize",
+      "icon": "grid",
+      "title": "Organize PDF",
+      "shortDesc": "Sort, delete, and extract PDF pages visually with drag and drop.",
+      "h1": "Organize PDF Pages — Free",
+      "lead": "Reorder pages with a simple drag-and-drop interface, or extract specific pages to create a new PDF. All processing happens securely.",
+      "ui": {
+        "uploadCta": "Drop a PDF here, or click to choose",
+        "uploadHint": "Up to 50 MB",
+        "actionBtn": "Apply Changes",
+        "downloadName": "organized.pdf",
+        "successTitle": "Your organized PDF is ready"
+      },
+      "steps": [
+        {"n": 1, "h": "Upload your PDF", "p": "Drop your PDF document into the upload area."},
+        {"n": 2, "h": "Organize pages", "p": "Drag and drop the page thumbnails to reorder them, or click the remove icon on any page you don't want to keep."},
+        {"n": 3, "h": "Apply Changes", "p": "Click to process. We build a new PDF based exactly on your visual arrangement."},
+        {"n": 4, "h": "Download", "p": "Save your newly organized file."}
+      ],
+      "useCases": [
+        "Rearrange scanned pages that are out of order.",
+        "Extract just 2 or 3 specific pages from a large report.",
+        "Remove title or appendix pages before sending a document."
+      ],
+      "faq": [
+        {"q": "Does this reduce the quality of the pages?", "a": "No, the internal structure of the PDF pages is perfectly preserved. We just re-stitch the document in your requested order."},
+        {"q": "Can I extract pages?", "a": "Yes! Just remove all the pages you don't want. The resulting PDF will only contain the pages you left in the grid."}
+      ],
+      "seo": {
+        "title": "Organize PDF — Reorder and Extract Pages Online Free",
+        "description": "Reorder PDF pages with drag and drop, or extract specific pages. Free online PDF organizer tool.",
+        "keywords": "organize pdf, reorder pdf pages, extract pages pdf, drag and drop pdf pages"
+      }
     }
   }
 }
+
