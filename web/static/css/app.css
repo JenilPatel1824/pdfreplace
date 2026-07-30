@@ -599,12 +599,7 @@ section h2{
   color:var(--text-soft);max-width:720px;
   margin:0 0 18px;font-size:1.02rem;
 }
-.tool-card.featured{
-  border-color:var(--brand);
-  background:linear-gradient(180deg,#ffffff 0%,var(--brand-soft) 100%);
-  box-shadow:var(--shadow-sm);
-}
-.tool-card.featured .tool-ico{background:var(--brand);color:#fff;}
+
 .home-tools-more{margin-top:18px;}
 .home-tools-more a{font-weight:600;}
 
